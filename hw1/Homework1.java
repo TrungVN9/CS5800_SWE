@@ -1,13 +1,5 @@
 package hw1;
 
-public class Homework1 {
-    public static void main(String[] args) {
-    
-        System.out.println("Hello, World!");
-    
-    }
-}
-
 // Employee class
 class Employee{
     // Attributes first name, last name and social security number
