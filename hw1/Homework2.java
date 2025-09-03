@@ -75,6 +75,7 @@ class Freelancer implements Payable{
         return firstName + " " + lastName;
     }
 
+    @Override
     public void print(){
         System.out.println("Freelancer Name: " + getPayeeName());
         System.out.println("Hourly Rate: $" + getHourslyRate());
@@ -127,6 +128,7 @@ class VendorInvoice implements Payable{
         return name;
     }
 
+    @Override
     public void print(){
         System.out.println("Vendor Invoice Name: " + getVendorName());
         System.out.println("Invoice Number: " + getInvoiceNumber());
@@ -147,7 +149,7 @@ public class Homework2 {
         freelancer2.setFirstName("Jane");
         freelancer2.setLastName("Smith");
         freelancer2.setHourlyRate(60.0);
-        freelancer2.setHoursWorked(45);
+        freelancer2.setHoursWorked(41);
         
         VendorInvoice vendor1 = new VendorInvoice();
         vendor1.setVendorName("My Company");
@@ -173,6 +175,7 @@ public class Homework2 {
             p.print();
             totalPayout += p.calculatePayment();
         }
-        System.out.println(totalPayout);
+        
+        System.out.println("Total Payout: $" + totalPayout);
     }
 }
