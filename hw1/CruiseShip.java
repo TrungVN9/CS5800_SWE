@@ -19,7 +19,7 @@ public class CruiseShip extends Ship{
 
     @Override
     public void print() {
-        System.out.println("Cruise Ship name: " + getShipName());
+        System.out.println("[Cruise Ship] " + toString());
         System.out.println("Cruise Ship capacity: " + maxPassengers);
     }
 }

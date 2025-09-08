@@ -19,7 +19,7 @@ public class CargoShip extends Ship {
 
     @Override
     public void print() {
-        System.out.println("Cargo Ship: " + getShipName());
+        System.out.println("[Cargo Ship] " + toString());
         System.out.println("Cargo Capacity: " + cargoCapacity + " tons");
     }
 }

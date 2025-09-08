@@ -6,11 +6,19 @@ public class Ship {
 
     // Static array to hold ship objects
     public static Ship[] ships = new Ship[3];
-    
+    private static int count = 0;
+
     // Constructor 
     public Ship(String shipName, String yearBuilt) {
         this.shipName = shipName;
         this.yearBuilt = yearBuilt;
+
+        if (count < ships.length) {
+            ships[count++] = this;
+        }
+        else {
+            System.out.println("Ship array is full. Cannot add more ships.");
+        }
     }
 
     // Setter getter for attributes
@@ -34,5 +42,10 @@ public class Ship {
     public void print() {
         System.out.println("Ship Name: " + getShipName());
         System.out.println("Ship was built: " + getYearBuilt());
+    }
+    
+    @Override
+    public String toString() {
+        return "Ship Name: " + shipName + ", Year Built: " + yearBuilt;
     }
 }
