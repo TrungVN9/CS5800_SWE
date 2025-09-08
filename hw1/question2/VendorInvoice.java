@@ -1,4 +1,4 @@
-package hw1;
+package hw1.question2;
 
 public class VendorInvoice implements Payable{
     private String vendorName;

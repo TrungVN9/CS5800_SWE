@@ -1,4 +1,4 @@
-package hw1;
+package hw1.question1;
 
 public class BaseEmployee extends Employee{
     private double baseSalary;

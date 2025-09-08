@@ -1,4 +1,4 @@
-package hw1;
+package hw1.question3;
 
 public class Ship {
     private String shipName;

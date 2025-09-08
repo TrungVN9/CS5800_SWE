@@ -1,4 +1,4 @@
-package hw1;
+package hw1.question2;
 
 public class Freelancer implements Payable {
     private String firstName;

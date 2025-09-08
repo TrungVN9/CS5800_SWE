@@ -1,4 +1,4 @@
-package hw1;
+package hw1.question1;
 
 // Derived class SalariedEmployee
 

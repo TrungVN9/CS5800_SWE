@@ -1,4 +1,4 @@
-package hw1;
+package hw1.question3;
 
 public class CargoShip extends Ship {
     private int cargoCapacity;

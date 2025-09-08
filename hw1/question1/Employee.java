@@ -1,4 +1,4 @@
-package hw1;
+package hw1.question1;
 
 // Abstract Employee class
 public abstract class Employee {

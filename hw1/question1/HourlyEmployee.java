@@ -3,7 +3,7 @@
  * @author trungvong
  */
 
-package hw1;
+package hw1.question1;
 
 // Derived class HourlyEmployee
 public class HourlyEmployee extends Employee {
