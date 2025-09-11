@@ -1,8 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Main.java to edit this template
- */
-
 package question4;
 
 /**
@@ -27,6 +22,7 @@ public class Homework4 {
         Instructor algoInstructor = new Instructor("Jane", "Smith", "2-5678");
         Textbook dbTextbook = new Textbook("Database System Concepts", "Abraham Silberschatz", "McGraw-Hill");
         Textbook algoTextbook = new Textbook("Introduction to Algorithms", "Thomas H. Cormen", "MIT Press");
+        
         // Create 2 courses using the above instructors and textbooks
         Course dbCourse = new Course("Database Systems", dbInstructor, dbTextbook);
         Course algoCourse = new Course("Algorithms", algoInstructor, algoTextbook);
