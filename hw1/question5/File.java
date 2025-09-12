@@ -47,12 +47,8 @@ public class File {
     public void setSize(double size) {
         this.size = size;
     }
-    
-    public void print(){
-        System.out.println("File name: " + name + "\nSize: " + size + " KB");
-    }
 
-    // overloaded recursive-friendly print with indentation
+    // print with indentation
     public void print(String indent) {
         System.out.println(indent + "File: " + name + " (" + size + " KB)");
     }

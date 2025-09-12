@@ -1,8 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
-
 package question5;
 
 /**
@@ -15,8 +10,8 @@ public class Folder {
     private int fileCount;
     private Folder[] subfolders;
     private int subfolderCount;
-    private static final int MAX_FILES = 100;
-    private static final int MAX_SUBFOLDERS = 100;
+    private static final int MAX_FILES = 100; // max files for tracking files
+    private static final int MAX_SUBFOLDERS = 100; // tracking subfolders
 
     public Folder(String folderName) {
         this.folderName = folderName;
@@ -50,7 +45,23 @@ public class Folder {
         return newFile;
     }
 
-    // Create a sub-folder within this folder
+    // Remove files
+    public void removeFile(String name) {
+        for (int i = 0; i < fileCount; i++) {
+            if (files[i] != null && files[i].getName().equals(name)) {
+                // Shift remaining files left
+                for (int j = i; j < fileCount - 1; j++) {
+                    files[j] = files[j + 1];
+                }
+                files[--fileCount] = null;
+                System.out.println("File " + name + " removed from " + folderName + ".");
+                return;
+            }
+        }
+        System.out.println("File " + name + " not found in " + folderName + ".");
+    }
+
+     // Create a sub-folder within this folder
     public Folder createSubFolder(String name) {
         if (subfolderCount >= MAX_SUBFOLDERS) {
             System.out.println("Cannot create more subfolders in " + folderName);
@@ -68,27 +79,11 @@ public class Folder {
         return f;
     }
 
-    // Remove a folder and all its files
-    public void removeFile(String name) {
-        for (int i = 0; i < fileCount; i++) {
-            if (files[i] != null && files[i].getName().equals(name)) {
-                // Shift remaining files left
-                for (int j = i; j < fileCount - 1; j++) {
-                    files[j] = files[j + 1];
-                }
-                files[--fileCount] = null;
-                System.out.println("File " + name + " removed from " + folderName + ".");
-                return;
-            }
-        }
-        System.out.println("File " + name + " not found in " + folderName + ".");
-    }
-
     // Remove a subfolder (recursively deletes its contents)
     public void removeFolder(String name) {
         for (int i = 0; i < subfolderCount; i++) {
             if (subfolders[i] != null && subfolders[i].getFolderName().equals(name)) {
-                // recursively clear
+                // recursively clean up the folders
                 subfolders[i].deleteAll();
                 // shift remaining subfolders left
                 for (int j = i; j < subfolderCount - 1; j++) {
@@ -119,11 +114,12 @@ public class Folder {
         subfolderCount = 0;
     }
 
+    // For printing indentation
     public void print() {
         print("");
     }
 
-    // recursive print with indentation
+    // recursive print with indentation for tracking output format
     private void print(String indent) {
         System.out.println(indent + "Folder: " + folderName);
         // print files
