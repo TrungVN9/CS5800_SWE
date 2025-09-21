@@ -1,0 +1,151 @@
+@startuml
+abstract class Employee{
+    - firstName: String
+    - lastName: String
+    - socialSecurityNumber: String
+
+    + getFirstName(): String
+    + getLastName(): String
+    + getSocialSecurityNumber(): String
+    + setFirstName(firstName: String): void
+    + setLastName(lastName: String): void
+    + setSocialSecurityNumber(socialSecurityNumber: String): void
+    + toString(): String
+}
+class SalariedEmployee extends Employee{
+    - weeklySalary: int
+
+    + getWeeklySalary(): int
+    + setWeeklySalary(weeklySalary: int): void
+    + toString(): String
+}
+
+class HourlyEmployee extends Employee{
+    - wage: int
+    - hoursWorked: int
+
+    + getWage(): int
+    + setWage(wage: int): void
+    + getHoursWorked(): int
+    + setHoursWorked(hoursWorked: int): void
+    + toString(): String
+}
+
+class CommissionEmployee extends Employee{
+    - commissionRate: int
+    - grossSales: int
+    + getCommissionRate(): int
+    + setCommissionRate(commissionRate: int): void
+    + getGrossSales(): int
+    + setGrossSales(grossSales: int): void
+    + toString(): String
+}
+
+class BaseEmployee extends Employee{
+    - baseSalary: int
+    + getBaseSalary(): int
+    + setBaseSalary(baseSalary: int): int
+    + toString(): Stringß
+}
+
+
+class Ship{
+    # shipName: String
+    # yearBuilt: String
+
+    + getShipName(): String
+    + setShipName(shipName: String): void
+    + getYearBuilt(): String
+    + setYearBuilt(yearBuilt: String): void
+    + toString(): String
+    + printShip(): void
+}
+
+class CargoShip extends Ship{
+    - cargoCapacityTonnage: int
+    + getCargoCapacityInTonnage(): int
+    + setCargoCapacityInTonnage(cargoCapacityInTonnage: int): void
+    + toString(): String
+}
+
+class Cruiship extends Ship{
+    - maxNumberPassengers: int
+    + getMaxNumberPassenger(): int
+    + setMaxNumberPassenger(maxNumberPassengers: int): void
+    + toString(): String
+}
+
+class Instructor{
+    - firstName: String
+    - lastName: String
+    - officeNumber: String
+
+    + getFirstName(): String
+    + setFirstName(firstName: String): void
+    + getLasatName(): String
+    + setLastName(lastName: String): void
+    + getOfficeNumber(): String
+    + setOfficeNumber(officeNumber: String): void
+    + toString(): String
+}
+
+class Textbook{
+    - title: String
+    - author: String
+    - publisher: String
+    + getTitle(): String
+    + setTitle(title: String): String
+    + getAuthor(): String
+    + setAuthor(author: String): String
+    + getPublisher(): String
+    + setPublisher(publisher: String): String
+    + toString(): String
+}
+
+class Course{
+    - name: String
+    - instructors: ArrayList<Instructor>
+    - textbooks: ArrayList<Textbook>
+    + Course(): void
+    + getName(): String
+    + setName(name: String): void
+    + getInstructors(): ArrayList<Instructor>
+    + setInstructors(instructors: ArrayList<Instructor>): void
+    + getTextbooks(): ArrayList<Textbook>
+    + setTextbooks(textbooks: ArrayList<Textbook>): void
+    + toString(): String
+    + printCourse(): void
+}
+
+Course o-- "1..*" Instructor: taught by
+Course o-- "1..*" Textbook: uses
+
+class File{
+    - name: String
+    + File(name: String): void
+    + getName(): String
+    + setName(name: String): void
+    + toString(): String
+}
+
+class Folder{
+    - name: String
+    - subFolders: ArrayList<Folder>
+    - files: ArrayList<File>
+
+    + Folder(): void
+    + getName(): String
+    + setName(name: String): void
+    + removeSubFolder(subFolderName: String): void
+    + addSubFolder(subFolderName: String): void
+    + getSubFolders(subFolderName: String): Folder
+    + removeFile(file: File): boolean
+    + addFile(fileName: String): void
+    + toString(): String
+    + printFolderContents(): void
+}
+
+Folder "1" *-- "0..*" File : contains
+Folder "1" *-- "0..*" Folder : subFolders
+
+@enduml

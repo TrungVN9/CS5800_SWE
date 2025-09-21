@@ -1,0 +1,79 @@
+@startuml
+
+object "<u>employeeOne: SalariedEmployee</u>" as employeeOne {
+    firstName = "John"
+    lastName = "Doe"
+    socialSecurityNumber = "111-11-1111"
+    weeklySalary = 2500
+}
+
+object "<u>employeeTwo: HourlyEmployee</u>" as employeeTwo{
+    firstName = "Stephanie"
+    lastName = "Smith"
+    socialSecurityNumber = "222-22-2222"
+    wage = 25
+    hoursWorked = 32
+}
+
+object "<u>employeeThree: HourlyEmployee</u>" as employeeThree{
+    firstName = "Mary"
+    lastName = "Quinn"
+    socialSecurityNumber = "333-33-3333"
+    wage = 19
+    hoursWorked = 47
+}
+
+object "<u>employeeFour: CommissionEmployee</u>" as employeeFour{
+    firstName = "Nicole"
+    lastName = "Dior"
+    socialSecurityNumber = "444-44-4444"
+    commissionRate = 15
+    grossSales = 50000
+}
+
+object "<u>employeeFive: SalariedEmployee</u>" as employeeFive{
+    firstName = "Renwa"
+    lastName = "Chanel"
+    socialSecurityNumber = "555-55-5555"
+    weeklySalary = 1700
+}
+object "<u>employeeSix: BaseEmployee</u>" as employeeSix{
+    firstName = "Mike"
+    lastName = "Davenport"
+    socialSecurityNumber = "666-66-6666"
+    baseSalary = 95000
+}
+object "<u>employeeSeven: CommissionEmployee</u>" as employeeSeven{
+    firstName = "Mahnaz"
+    lastName = "Vaziri"
+    socialSecurityNumber = "777-77-7777"
+    commissionRate = 22
+    grossSales = 40000
+}
+
+object "<u>Titanic: Ship</u>" as titanic{
+    shipName = "Titanic"
+    yearBuilt = "March31st, 1909"
+}
+
+object "<u>MVGemini: CruiseShip</u>" as mvGemini{
+    shipName = "MVGemini"
+    yearBuilt = "May30th, 1991"
+    maxNumberPassengers= 100
+}
+object "<u>EverGiven: CargoShip</u>" as everGiven{
+    shipName = "EverGiven"
+    yearBuilt = "September25th, 2018"
+    cargoCapacity = 220940
+}
+
+object "ships: Ship[]" as ships {
+    ships = {titanic, mvGemini, everGiven}
+}
+
+ships --> titanic
+ships --> mvGemini
+ships --> everGiven
+
+
+@enduml
