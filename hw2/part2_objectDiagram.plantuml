@@ -1,56 +1,5 @@
 @startuml
-
-object "<u>employeeOne: SalariedEmployee</u>" as employeeOne {
-    firstName = "John"
-    lastName = "Doe"
-    socialSecurityNumber = "111-11-1111"
-    weeklySalary = 2500
-}
-
-object "<u>employeeTwo: HourlyEmployee</u>" as employeeTwo{
-    firstName = "Stephanie"
-    lastName = "Smith"
-    socialSecurityNumber = "222-22-2222"
-    wage = 25
-    hoursWorked = 32
-}
-
-object "<u>employeeThree: HourlyEmployee</u>" as employeeThree{
-    firstName = "Mary"
-    lastName = "Quinn"
-    socialSecurityNumber = "333-33-3333"
-    wage = 19
-    hoursWorked = 47
-}
-
-object "<u>employeeFour: CommissionEmployee</u>" as employeeFour{
-    firstName = "Nicole"
-    lastName = "Dior"
-    socialSecurityNumber = "444-44-4444"
-    commissionRate = 15
-    grossSales = 50000
-}
-
-object "<u>employeeFive: SalariedEmployee</u>" as employeeFive{
-    firstName = "Renwa"
-    lastName = "Chanel"
-    socialSecurityNumber = "555-55-5555"
-    weeklySalary = 1700
-}
-object "<u>employeeSix: BaseEmployee</u>" as employeeSix{
-    firstName = "Mike"
-    lastName = "Davenport"
-    socialSecurityNumber = "666-66-6666"
-    baseSalary = 95000
-}
-object "<u>employeeSeven: CommissionEmployee</u>" as employeeSeven{
-    firstName = "Mahnaz"
-    lastName = "Vaziri"
-    socialSecurityNumber = "777-77-7777"
-    commissionRate = 22
-    grossSales = 40000
-}
-
+title Object Diagram HW2 - Part 2
 object "<u>Titanic: Ship</u>" as titanic{
     shipName = "Titanic"
     yearBuilt = "March31st, 1909"
@@ -67,13 +16,70 @@ object "<u>EverGiven: CargoShip</u>" as everGiven{
     cargoCapacity = 220940
 }
 
-object "ships: Ship[]" as ships {
-    ships = {titanic, mvGemini, everGiven}
+object "<u>ships: Ship[]</u>" as ships {
+    ships = [titanic, mvGemini, everGiven]
 }
 
 ships --> titanic
 ships --> mvGemini
 ships --> everGiven
 
+newpage
+object "<u>c1Instructor: Instructor</u>" as c1Instructor{
+    firstName = "Nima"
+    lastName = "Davarpanah"
+    officeNumber = "3-2636"
+}
 
+object "<u>c1Textbook: Textbook</u>" as c1Textbook{
+    title = "CleanCode: A Handbook of Agile Software Craftsmanship"
+    author = "Robert C. Martin"
+    publisher = "Pearson"
+}
+
+object "<u>c1: Course</u>" as c1{
+    name= "CS5800 - Advanced Software Engineering"
+    instructor = c1Instructor
+    textbook = c1Textbook
+}
+
+c1 o-- c1Instructor
+c1 o-- c1Textbook
+
+object "<u>phpDemo1: Folder</u>" as phpDemo1{
+    name= "php_demo1"
+    subFolders = [src, includePath, remoteFiles]
+}
+
+object "<u>IncludePath: Folder</u>" as includePath{
+    name="Include Path"
+}
+
+object "<u>RemoteFiles: Folder</u>" as remoteFiles{
+    name= "Remote Files"
+}
+object "<u>SourceFiles: Folder</u>" as src{
+    name= "Source Files"
+    subFolders = [phalcon, cache, publicF]
+}
+
+object "<u>.phalcon: Folder</u>" as phalcon{
+    name= ".phalcon"   
+}
+
+object "<u>cache: Folder</u>" as cache{
+    name= "cache"
+}
+
+object "<u>public: Folder</u>" as publicF{
+    name= "public"
+    files=[".htaccess", ".htrouter.php", "index.html"]
+}
+
+phpDemo1 --> src
+phpDemo1 --> includePath
+phpDemo1 --> remoteFiles
+src --> phalcon
+src --> cache
+src --> publicF
 @enduml

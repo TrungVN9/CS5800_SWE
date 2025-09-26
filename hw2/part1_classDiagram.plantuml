@@ -1,4 +1,5 @@
 @startuml
+title Class Diagram Hw2 - Part 1
 abstract class Employee{
     - firstName: String
     - lastName: String
@@ -48,7 +49,7 @@ class BaseEmployee extends Employee{
     + toString(): Stringß
 }
 
-
+newpage
 class Ship{
     # shipName: String
     # yearBuilt: String
@@ -106,13 +107,13 @@ class Course{
     - name: String
     - instructors: ArrayList<Instructor>
     - textbooks: ArrayList<Textbook>
-    + Course(): void
+    + <<constructor>> Course()
     + getName(): String
     + setName(name: String): void
     + getInstructors(): ArrayList<Instructor>
-    + setInstructors(instructors: ArrayList<Instructor>): void
+    + setInstructors(instructors: Instructor): void
     + getTextbooks(): ArrayList<Textbook>
-    + setTextbooks(textbooks: ArrayList<Textbook>): void
+    + setTextbooks(textbooks: Textbook): void
     + toString(): String
     + printCourse(): void
 }
@@ -120,9 +121,10 @@ class Course{
 Course o-- "1..*" Instructor: taught by
 Course o-- "1..*" Textbook: uses
 
+newpage
 class File{
     - name: String
-    + File(name: String): void
+    + <<constructor>> File(name: String)
     + getName(): String
     + setName(name: String): void
     + toString(): String
@@ -133,7 +135,7 @@ class Folder{
     - subFolders: ArrayList<Folder>
     - files: ArrayList<File>
 
-    + Folder(): void
+    + <<constructor>> Folder()
     + getName(): String
     + setName(name: String): void
     + removeSubFolder(subFolderName: String): void

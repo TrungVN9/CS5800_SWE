@@ -1,6 +1,9 @@
-package question4;
+/*
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
+ */
 
-import java.util.ArrayList;
+package question4;
 
 /**
  *
@@ -11,8 +14,8 @@ public class Course {
     private Instructor instructor;
     private Textbook textbook;
 
-    private ArrayList<Instructor> instructors; // for multiple instructors
-    private ArrayList<Textbook> textbooks; // for multiple textbooks
+    private Instructor[] instructors; // for multiple instructors
+    private Textbook[] textbooks; // for multiple textbooks
     
     public Course(String name, Instructor instructor, Textbook textbook) {
         this.name = name;
@@ -21,7 +24,7 @@ public class Course {
     }
     
     // Constructor for multiple instructors and textbooks
-    public Course(String name, ArrayList<Instructor> instructors, ArrayList<Textbook> textbooks) {
+    public Course(String name, Instructor[] instructors, Textbook[] textbooks) {
         this.name = name;
         this.instructors = instructors;
         this.textbooks = textbooks;
@@ -34,9 +37,7 @@ public class Course {
         if (instructor != null) {
             System.out.println("Instructor: " + instructor.getFirstName() + " " + instructor.getLastName()
                     + ", Office: " + instructor.getOfficeNumber());
-        }
-        // Handle a list of instructors 
-        else if (instructors != null) {
+        } else if (instructors != null) {
             System.out.println("Instructors:");
             for (Instructor inst : instructors) {
                 System.out.println(
@@ -46,9 +47,7 @@ public class Course {
         if (textbook != null) {
             System.out.println("Textbook: " + textbook.getTitle() + " by " + textbook.getAuthor() + ", Publisher: "
                     + textbook.getPublisher());
-        }
-        // Handle a list of textbooks
-        else if (textbooks != null) {
+        } else if (textbooks != null) {
             System.out.println("Textbooks:");
             for (Textbook tb : textbooks) {
                 System.out
