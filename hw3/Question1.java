@@ -1,6 +1,6 @@
 package hw3;
 
-public class PizzaChainDriver{
+public class Question1{
     public static void main(String[] args) {
         
         // 3 topping pizza
