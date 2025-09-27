@@ -8,6 +8,11 @@ package hw3;
 //  Implement the NoRestrictionFactory class that creates any type of Carbs, Protein, and Fats
 class NoRestrictionFactory extends MacronutrientFactory {
     @Override
+    public String getPlanName() {
+        return "No Restriction Option";
+    }
+
+    @Override
     Carbs createCarbs() {
         int rand = (int) (Math.random() * 4);
         return switch (rand) {

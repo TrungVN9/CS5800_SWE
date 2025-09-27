@@ -2,6 +2,10 @@ package hw3;
 
 class VeganFactory extends MacronutrientFactory{
     @Override
+    public String getPlanName() {
+        return "Vegan Option";
+    }
+    @Override
     Carbs createCarbs() {
         int rand = (int) (Math.random() * 2);
         return switch (rand) {

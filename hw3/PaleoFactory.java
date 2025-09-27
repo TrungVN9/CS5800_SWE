@@ -1,6 +1,11 @@
 package hw3;
 
-class PaleoFactory extends MacronutrientFactory{
+class PaleoFactory extends MacronutrientFactory {
+    @Override
+    public String getPlanName() {
+        return "Paleo Option";
+    }
+    
     @Override
     Carbs createCarbs()
     {

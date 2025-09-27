@@ -6,8 +6,11 @@ package hw3;
  */
 
 // Implement the Abstract Factory pattern 
-abstract class MacronutrientFactory {
+public abstract class MacronutrientFactory {
     abstract Carbs createCarbs();
     abstract Protein createProtein();
+
     abstract Fats createFats();
+    
+    public abstract String getPlanName();
 }

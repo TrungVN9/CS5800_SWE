@@ -2,6 +2,10 @@ package hw3;
 
 class NutAllergyFactory extends MacronutrientFactory {
     @Override
+    public String getPlanName() {
+        return "Nut Allergy Option";
+    }
+    @Override
     Carbs createCarbs() {
         int rand = (int) (Math.random() * 3);
         return switch (rand) {
