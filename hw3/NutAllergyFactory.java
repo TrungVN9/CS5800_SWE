@@ -5,6 +5,7 @@ class NutAllergyFactory extends MacronutrientFactory {
     public String getPlanName() {
         return "Nut Allergy Option";
     }
+    
     @Override
     Carbs createCarbs() {
         int rand = (int) (Math.random() * 3);

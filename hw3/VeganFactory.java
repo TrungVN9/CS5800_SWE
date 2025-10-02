@@ -5,6 +5,7 @@ class VeganFactory extends MacronutrientFactory{
     public String getPlanName() {
         return "Vegan Option";
     }
+    
     @Override
     Carbs createCarbs() {
         int rand = (int) (Math.random() * 2);
@@ -14,10 +15,12 @@ class VeganFactory extends MacronutrientFactory{
             default -> null;
         };
     }
+
     @Override
     Protein createProtein() {
         return new Tofu();
     };
+
     @Override
     Fats createFats() {
         int rand = (int) (Math.random() * 2);

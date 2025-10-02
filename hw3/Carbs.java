@@ -1,16 +1,9 @@
 package hw3;
-/**
- *
- * @author trungvong
- */
 
-//  Product interface for Carbs
 public abstract class Carbs {
     public abstract void selectCarbs();
  }
 
-
-//  Create concrete classes for various types of Carbs
 class Cheese extends Carbs {
     @Override
     public void selectCarbs() {

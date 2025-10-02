@@ -1,9 +1,5 @@
 package hw3;
 
-/**
- *
- * @author trungvong
- */
 public class Customer {
     private String customerName;
     private MacronutrientFactory dietPlan;

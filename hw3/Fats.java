@@ -1,12 +1,9 @@
 package hw3;
-/**
- * 
- */
+
 public abstract class Fats {
     public abstract void selectFats();
  }
 
- //  Create concrete classes for various types of Fats
 class Avocado extends Fats {
     @Override
     public void selectFats() {
