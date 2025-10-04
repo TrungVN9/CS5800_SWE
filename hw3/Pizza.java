@@ -53,7 +53,6 @@ public class Pizza {
             this.size = size;
         }
         
-        // Specific methods for each topping
         public Builder addPepperoni() {
             toppings.add("Pepperoni");
             return this;

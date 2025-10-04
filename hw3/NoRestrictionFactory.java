@@ -1,11 +1,5 @@
 package hw3;
 
-/**
- *
- * @author trungvong
- */
-
-//  Implement the NoRestrictionFactory class that creates any type of Carbs, Protein, and Fats
 class NoRestrictionFactory extends MacronutrientFactory {
     @Override
     public String getPlanName() {

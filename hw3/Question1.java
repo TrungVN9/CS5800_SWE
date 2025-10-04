@@ -39,7 +39,7 @@ public class Question1{
         pizzaHutLarge.eat();
 
         System.out.println("======== PART 2 ===========");
-        // Part 2 --- Purchasing another 2 pizza chains
+
         Pizza largePizzaHut = new Pizza.Builder("Pizza Hut", "Large")
                                 .addOnions()
                                 .addPesto()
