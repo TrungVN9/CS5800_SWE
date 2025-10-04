@@ -1,6 +1,18 @@
 package hw3;
 
 class NoRestrictionFactory extends MacronutrientFactory {
+    private static NoRestrictionFactory instance = null;
+
+    private NoRestrictionFactory() {
+    }
+
+    public static NoRestrictionFactory getInstance() {
+        if (instance == null) {
+            instance = new NoRestrictionFactory();
+        }
+        return instance;
+    }
+    
     @Override
     public String getPlanName() {
         return "No Restriction Option";

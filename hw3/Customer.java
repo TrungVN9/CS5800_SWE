@@ -34,7 +34,7 @@ public class Customer {
         Protein p = dietPlan.createProtein();
         Fats f = dietPlan.createFats();
         
-        System.out.println("========= " + dietPlan.getPlanName() + " Plan for " + customerName + " =========");
+        System.out.println("========= " + dietPlan.getPlanName() + " for " + customerName + " =========");
 
         c.selectCarbs();
         p.selectProtein();

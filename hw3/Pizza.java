@@ -42,7 +42,6 @@ public class Pizza {
         System.out.println(chainName + ": " + size + " pizza with " + toppings.size() + " toppings " + toppings);
     }
 
-    //Builder
     public static class Builder{
         private final String chainName;
         private final String size;

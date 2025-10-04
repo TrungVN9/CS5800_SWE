@@ -1,6 +1,17 @@
 package hw3;
 
 class PaleoFactory extends MacronutrientFactory {
+    private static PaleoFactory instance = null;
+
+    private PaleoFactory() {
+    }
+    
+    public static PaleoFactory getInstance() {
+        if (instance == null) {
+            instance = new PaleoFactory();
+        }
+        return instance;
+    }
     @Override
     public String getPlanName() {
         return "Paleo Option";

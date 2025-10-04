@@ -5,10 +5,10 @@ package hw3;
  */
 public class Question2 {
     public static void main(String[] args) {
-        MacronutrientFactory noRestrictionOption = new NoRestrictionFactory();
-        MacronutrientFactory paleoOption = new PaleoFactory();
-        MacronutrientFactory veganOption = new VeganFactory();
-        MacronutrientFactory nutAllergyOption = new NutAllergyFactory();
+        MacronutrientFactory noRestrictionOption = NoRestrictionFactory.getInstance();
+        MacronutrientFactory paleoOption = PaleoFactory.getInstance();
+        MacronutrientFactory veganOption = VeganFactory.getInstance();
+        MacronutrientFactory nutAllergyOption = NutAllergyFactory.getInstance();
 
         Customer tom = new Customer("Tom", nutAllergyOption);
         Customer john = new Customer("John", veganOption);
