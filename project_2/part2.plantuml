@@ -1,0 +1,114 @@
+@startuml
+title Expense Tracker - Class Diagram
+
+class Customer {
+  - customerId
+  - name
+  - email
+  - passwordHash
+  - occupation
+  - salary
+  + signUp()
+  + signIn()
+  + updateProfile()
+  + viewDashboard()
+}
+
+class Account {
+  - accountId
+  - expenses
+  - budgets
+  - goals
+  + addExpense()
+  + removeExpense()
+  + calculateTotals()
+}
+
+class Expense {
+  - expenseId
+  - amount
+  - date
+  - category
+  - note
+  + createExpense()
+  + editExpense()
+  + deleteExpense()
+}
+
+class Category {
+  - categoryId
+  - name
+  - budgetLimit
+  + setBudget()
+  + updateCategory()
+}
+
+class Budget {
+  - budgetId
+  - limit
+  - period
+  - spentAmount
+  + calculateRemaining()
+  + checkThreshold()
+}
+
+class Goal {
+  - goalId
+  - targetAmount
+  - savedAmount
+  - deadline
+  - status
+  + trackProgress()
+  + notifyGoalStatus()
+}
+
+class Reminder {
+  - reminderId
+  - billName
+  - amount
+  - dueDate
+  - status
+  + createReminder()
+  + sendReminder()
+  + markAsPaid()
+}
+
+class Notification {
+  - notificationId
+  - type
+  - message
+  - timestamp
+  - status
+  + sendNotification()
+  + archiveNotification()
+}
+
+class Report {
+  - reportId
+  - startDate
+  - endDate
+  - summary
+  + generateReport()
+  + exportCSV()
+}
+
+class Dashboard {
+  - dashboardId
+  - charts
+  - totals
+  - progress
+  + generateCharts()
+  + displayData()
+}
+
+Customer "1" -- "1" Account
+Account "1" -- "*" Expense
+Account "1" -- "*" Category
+Account "1" -- "*" Budget
+Account "1" -- "*" Goal
+Customer "1" -- "*" Reminder
+Customer "1" -- "*" Notification
+Category "1" -- "*" Expense
+Dashboard "1" --> Account
+Report "1" --> Account
+@enduml

@@ -1,102 +1,82 @@
 @startuml
-|Customer|
+title Expense Tracker - Activity Diagram
+
 start
-:Open Web App;
 
-|System|
-:Display Login / Sign Up Page;
+:Initialize Application;
 
-|Customer|
-:Enter Email and Password;
+partition Authentication {
+    :Create or Retrieve Customer;
+    :Validate Credentials;
+    if (Authenticated?) then (yes)
+      :Load Customer Account;
+    else (no)
+      :Return Authentication Error;
+      stop
+    endif
+}
 
-|System|
-:Validate or Create Account;
-:Store Credentials Securely;
-:Show Dashboard;
+partition Expense_Management {
+    :Create Expense Object;
+    :Add Expense to Account;
+    :Delete Expense from Account;
+    :Update Records and Totals;
+}
 
-|Customer|
-:View Spending Dashboard;
+partition Category_and_Budget {
+    :Create or Edit Category;
+    :Assign Budget to Category;
+    :Persist Category and Budget Preferences;
+}
 
-|System|
-:Retrieve Expenses;
-:Group Data by Category/Date;
-:Display Charts, Totals, Budgets;
+partition Expense_Filtering {
+    :Search Expenses by Keyword;
+    :Filter Expenses by Date or Category;
+    :Return Filtered ExpenseList;
+}
 
-|Customer|
-:Select "Add Expense";
-:Enter Amount, Category, Date, Note;
+partition Dashboard {
+    :Retrieve Expense Records;
+    :Group Data by Category and Date;
+    :Generate Charts and Totals;
+    :Display Budget Progress;
+}
 
-|System|
-:Validate Data;
-if (Valid?) then (yes)
-  :Save Record to Account;
-  :Recalculate Totals;
-  :Update Dashboard;
-else (no)
-  :Show Error Message;
-endif
+partition Saving_Goals {
+    :Create Goal;
+    :Track Goal Progress;
+    if (Goal Achieved?) then (yes)
+      :Notify Goal Completion;
+    else (no)
+      :Notify Falling Behind;
+    endif
+}
 
-|Customer|
-:Search or Filter Expenses by Keyword, Category, or Date Range;
+partition Profile_Management {
+    :Update Profile Information;
+    :Apply Preferences to Reports;
+}
 
-|System|
-:Retrieve Matching Expenses;
-:Display Filtered List with Updated Totals;
+partition Reporting {
+    :Generate SummaryReport (Expenses + Goals);
+    :Export Report to CSV;
+}
 
-|Customer|
-:Edit or Add New Categories;
-:Set Monthly or Weekly Budgets;
+partition Notifications {
+    :Monitor Expenses and Budgets;
+    :Trigger Alerts if Threshold Exceeded;
+    :Send In-App Notification;
+}
 
-|System|
-:Save Preferences;
-:Apply New Classification Rules;
-:Trigger Budget Alerts if Threshold Exceeded;
+partition Reminders {
+    :Create Reminder Object;
+    :Schedule Notification by Due Date;
+    :Notify Before Due Date;
+    :Convert Paid Reminder to Expense;
+}
 
-|Customer|
-:Navigate to Goals Tab;
-:Enter Saving Target;
+:Persist All Updates;
+:Refresh Dashboard View;
 
-|System|
-:Track Expense Progress;
-:Update Goal Status;
-:Notify if Falling Behind;
-
-|Customer|
-:Edit Profile (Name, Occupation, Salary);
-
-|System|
-:Update Profile Data;
-:Adjust Reports Accordingly;
-
-|Customer|
-:Choose Export Period;
-:Request Report Download;
-
-|System|
-:Generate CSV Summary (Expenses + Goals);
-:Provide Download Link;
-
-|System|
-:Monitor Expenses for Alerts;
-if (Over Budget or Goal Missed?) then (yes)
-  :Send In-App Notification;
-endif
-
-|Customer|
-:Open Reminder Tab;
-:Create Bill Reminder (Name, Amount, Due Date, Note);
-
-|System|
-:Store Reminder and Schedule Notification;
-:Send Notification Before Due Date;
-
-|Customer|
-:Mark Reminder as Paid;
-
-|System|
-:Archive Reminder or Convert to Expense;
-
-|Customer|
-:View Updated Dashboard with New Data;
 stop
 @enduml
