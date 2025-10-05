@@ -1,6 +1,9 @@
 @startuml
 title Expense Tracker - Class Diagram
 
+'=========================
+' CORE ACTORS & ENTITIES
+'=========================
 class Customer {
   - customerId
   - name
@@ -16,11 +19,10 @@ class Customer {
 
 class Account {
   - accountId
-  - expenses
-  - budgets
-  - goals
-  + addExpense()
-  + removeExpense()
+  - createdDate
+  + getExpenses()
+  + getBudgets()
+  + getGoals()
   + calculateTotals()
 }
 
@@ -28,7 +30,6 @@ class Expense {
   - expenseId
   - amount
   - date
-  - category
   - note
   + createExpense()
   + editExpense()
@@ -38,9 +39,11 @@ class Expense {
 class Category {
   - categoryId
   - name
+  - type
   - budgetLimit
-  + setBudget()
+  + addCategory()
   + updateCategory()
+  + deleteCategory()
 }
 
 class Budget {
@@ -54,10 +57,11 @@ class Budget {
 
 class Goal {
   - goalId
+  - title
   - targetAmount
   - savedAmount
   - deadline
-  - status
+  - progress
   + trackProgress()
   + notifyGoalStatus()
 }
@@ -67,6 +71,7 @@ class Reminder {
   - billName
   - amount
   - dueDate
+  - note
   - status
   + createReminder()
   + sendReminder()
@@ -101,14 +106,85 @@ class Dashboard {
   + displayData()
 }
 
+'=========================
+' CONTROLLERS / SERVICES (for sequence + expansion)
+'=========================
+class AuthController {
+  + signUp()
+  + signIn()
+}
+
+class ExpenseController {
+  + addExpense()
+  + deleteExpense()
+  + searchExpense()
+  + filterExpense()
+}
+
+class DashboardController {
+  + loadDashboard()
+}
+
+class CategoryController {
+  + manageCategories()
+}
+
+class BudgetController {
+  + setBudget()
+  + checkBudgetStatus()
+}
+
+class GoalController {
+  + createGoal()
+  + updateGoalProgress()
+}
+
+class ReportController {
+  + generateReport()
+  + exportData()
+}
+
+class NotificationController {
+  + createNotification()
+  + sendAlert()
+}
+
+class ReminderController {
+  + createReminder()
+  + triggerReminder()
+}
+
+'=========================
+' ASSOCIATIONS
+'=========================
 Customer "1" -- "1" Account
 Account "1" -- "*" Expense
 Account "1" -- "*" Category
 Account "1" -- "*" Budget
 Account "1" -- "*" Goal
+Account "1" -- "*" Report
 Customer "1" -- "*" Reminder
 Customer "1" -- "*" Notification
-Category "1" -- "*" Expense
 Dashboard "1" --> Account
-Report "1" --> Account
+Expense "*" --> Category
+Budget "1" --> Category
+Goal "1" --> Expense
+Report "1" --> Expense
+Notification "1" --> Customer
+Reminder "1" --> Expense : converts to after paid
+
+'=========================
+' CONTROLLER RELATIONSHIPS
+'=========================
+Customer --> AuthController
+AuthController --> Account
+ExpenseController --> Expense
+CategoryController --> Category
+BudgetController --> Budget
+GoalController --> Goal
+ReportController --> Report
+DashboardController --> Dashboard
+NotificationController --> Notification
+ReminderController --> Reminder
+
 @enduml
