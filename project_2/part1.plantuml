@@ -16,20 +16,20 @@ partition Authentication {
     endif
 }
 
-partition Expense_Management {
+partition Expenses Management {
     :Create Expense Object;
     :Add Expense to Account;
     :Delete Expense from Account;
     :Update Records and Totals;
 }
 
-partition Category_and_Budget {
+partition Category and Budgeting {
     :Create or Edit Category;
     :Assign Budget to Category;
     :Persist Category and Budget Preferences;
 }
 
-partition Expense_Filtering {
+partition Expense Filtering {
     :Search Expenses by Keyword;
     :Filter Expenses by Date or Category;
     :Return Filtered ExpenseList;
@@ -42,7 +42,7 @@ partition Dashboard {
     :Display Budget Progress;
 }
 
-partition Saving_Goals {
+partition Saving Goals {
     :Create Goal;
     :Track Goal Progress;
     if (Goal Achieved?) then (yes)
@@ -52,7 +52,7 @@ partition Saving_Goals {
     endif
 }
 
-partition Profile_Management {
+partition Profile Management {
     :Update Profile Information;
     :Apply Preferences to Reports;
 }
