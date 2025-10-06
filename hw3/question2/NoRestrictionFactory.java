@@ -1,4 +1,4 @@
-package hw3;
+package hw3.question2;
 
 class NoRestrictionFactory extends MacronutrientFactory {
     private static NoRestrictionFactory instance = null;

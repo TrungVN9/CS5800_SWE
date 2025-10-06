@@ -1,4 +1,4 @@
-package hw3;
+package hw3.question2;
 
 class NutAllergyFactory extends MacronutrientFactory {
     private static NutAllergyFactory instance = null;

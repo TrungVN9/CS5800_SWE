@@ -1,4 +1,4 @@
-package hw3;
+package hw3.question2;
 
 public class Customer {
     private String customerName;

@@ -1,4 +1,4 @@
-package hw3;
+package hw3.question2;
 
 class PaleoFactory extends MacronutrientFactory {
     private static PaleoFactory instance = null;

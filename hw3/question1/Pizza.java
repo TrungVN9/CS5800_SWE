@@ -1,4 +1,4 @@
-package hw3;
+package hw3.question1;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -1,4 +1,4 @@
-package hw3;
+package hw3.question2;
 
 public abstract class Protein {
     public abstract void selectProtein();

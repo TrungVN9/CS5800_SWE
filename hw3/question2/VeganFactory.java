@@ -1,4 +1,4 @@
-package hw3;
+package hw3.question2;
 
 class VeganFactory extends MacronutrientFactory {
     private static VeganFactory instance = new VeganFactory();
