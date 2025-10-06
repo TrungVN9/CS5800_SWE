@@ -1,6 +1,18 @@
 package hw3;
 
-class VeganFactory extends MacronutrientFactory{
+class VeganFactory extends MacronutrientFactory {
+    private static VeganFactory instance = new VeganFactory();
+
+    private VeganFactory() {
+    }
+
+    public static VeganFactory getInstance() {
+        if (instance == null) {
+            instance = new VeganFactory();
+        }
+        return instance;
+    }
+
     @Override
     public String getPlanName() {
         return "Vegan Option";

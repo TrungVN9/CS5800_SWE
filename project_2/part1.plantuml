@@ -1,0 +1,82 @@
+@startuml
+title Expense Tracker - Activity Diagram
+
+start
+
+:Initialize Application;
+
+partition Authentication {
+    :Create or Retrieve Customer;
+    :Validate Credentials;
+    if (Authenticated?) then (yes)
+      :Load Customer Account;
+    else (no)
+      :Return Authentication Error;
+      stop
+    endif
+}
+
+partition Expenses Management {
+    :Create Expense Object;
+    :Add Expense to Account;
+    :Delete Expense from Account;
+    :Update Records and Totals;
+}
+
+partition Category and Budgeting {
+    :Create or Edit Category;
+    :Assign Budget to Category;
+    :Persist Category and Budget Preferences;
+}
+
+partition Expense Filtering {
+    :Search Expenses by Keyword;
+    :Filter Expenses by Date or Category;
+    :Return Filtered ExpenseList;
+}
+
+partition Dashboard {
+    :Retrieve Expense Records;
+    :Group Data by Category and Date;
+    :Generate Charts and Totals;
+    :Display Budget Progress;
+}
+
+partition Saving Goals {
+    :Create Goal;
+    :Track Goal Progress;
+    if (Goal Achieved?) then (yes)
+      :Notify Goal Completion;
+    else (no)
+      :Notify Falling Behind;
+    endif
+}
+
+partition Profile Management {
+    :Update Profile Information;
+    :Apply Preferences to Reports;
+}
+
+partition Reporting {
+    :Generate SummaryReport (Expenses + Goals);
+    :Export Report to CSV;
+}
+
+partition Notifications {
+    :Monitor Expenses and Budgets;
+    :Trigger Alerts if Threshold Exceeded;
+    :Send In-App Notification;
+}
+
+partition Reminders {
+    :Create Reminder Object;
+    :Schedule Notification by Due Date;
+    :Notify Before Due Date;
+    :Convert Paid Reminder to Expense;
+}
+
+:Persist All Updates;
+:Refresh Dashboard View;
+
+stop
+@enduml

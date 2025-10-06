@@ -1,6 +1,18 @@
 package hw3;
 
 class NutAllergyFactory extends MacronutrientFactory {
+    private static NutAllergyFactory instance = null;
+
+    private NutAllergyFactory() {
+    }
+
+    public static NutAllergyFactory getInstance() {
+        if (instance == null) {
+            instance = new NutAllergyFactory();
+        }
+        return instance;
+    }
+    
     @Override
     public String getPlanName() {
         return "Nut Allergy Option";
