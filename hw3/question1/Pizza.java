@@ -43,18 +43,41 @@ public class Pizza {
     }
 
     public static class Builder{
-        private final String chainName;
-        private final String size;
+        private String chainName;
+        private String size;
         private List<String> toppings = new ArrayList<>();
 
-        public Builder(String chainName, String size){
-            this.chainName = chainName;
-            if (!size.equals("Small") && !size.equals("Medium") && !size.equals("Large")) {
-                throw new IllegalArgumentException("Invalid size. Must be Small, Medium, or Large.");
-            }
-            this.size = size;
+        public Builder(){
         }
         
+        public Builder setPizzaHut() {
+            this.chainName = "Pizza Hut";
+            return this;
+        }
+
+        public Builder setLittleCaesars() {
+            this.chainName = "Little Caesars";
+            return this;
+        }
+
+        public Builder setDominos() {
+            this.chainName = "Dominos";
+            return this;
+        }
+
+        public Builder setSizeSmall() {
+            this.size = "Small";
+            return this;
+        }
+        public Builder setSizeMedium() {
+            this.size = "Medium";
+            return this;
+        }
+        public Builder setSizeLarge() {
+            this.size = "Large";
+            return this;
+        }
+
         public Builder addPepperoni() {
             toppings.add("Pepperoni");
             return this;
