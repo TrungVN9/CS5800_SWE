@@ -4,7 +4,8 @@ public class Question1{
     public static void main(String[] args) {
         
         // 3 topping pizza
-        Pizza pizzaHutSmall = new Pizza.Builder().setPizzaHut()
+        Pizza pizzaHutSmall = new Pizza.Builder()
+                .setPizzaHut()
                 .setSizeSmall()
                 .addBacon()
                 .addBeef()
@@ -14,7 +15,8 @@ public class Question1{
         pizzaHutSmall.eat();
         
         // 6 toppings pizza
-        Pizza pizzaHutMedium = new Pizza.Builder().setPizzaHut()
+        Pizza pizzaHutMedium = new Pizza.Builder()
+                .setPizzaHut()
                 .setSizeMedium()
                 .addBacon()
                 .addChicken()
@@ -26,7 +28,8 @@ public class Question1{
         pizzaHutMedium.eat();
 
         // 9 toppings pizza
-        Pizza pizzaHutLarge = new Pizza.Builder().setPizzaHut()
+        Pizza pizzaHutLarge = new Pizza.Builder()
+                .setPizzaHut()
                 .setSizeLarge()
                 .addSpinach()
                 .addSpicyPork()
@@ -43,7 +46,8 @@ public class Question1{
 
         System.out.println("======== PART 2 ===========");
         
-        Pizza largePizzaHut = new Pizza.Builder().setPizzaHut()
+        Pizza largePizzaHut = new Pizza.Builder()
+                                .setPizzaHut()
                                 .setSizeLarge()
                                 .addOnions()
                                 .addPesto()
@@ -51,14 +55,16 @@ public class Question1{
                                 .build();
         largePizzaHut.eat();
 
-        Pizza smallPizzaHut = new Pizza.Builder().setPizzaHut()
+        Pizza smallPizzaHut = new Pizza.Builder()
+                                .setPizzaHut()
                                 .setSizeSmall()
                                 .addOnions()
                                 .addPesto()
                                 .build();
         smallPizzaHut.eat();
 
-        Pizza littleCaesarMedium = new Pizza.Builder().setLittleCaesars()
+        Pizza littleCaesarMedium = new Pizza.Builder()
+                                .setLittleCaesars()
                                 .setSizeMedium()
                                 .addSpicyPork()
                                 .addHam()
@@ -72,7 +78,8 @@ public class Question1{
 
         littleCaesarMedium.eat();
 
-        Pizza littleCaesarSmall = new Pizza.Builder().setLittleCaesars()
+        Pizza littleCaesarSmall = new Pizza.Builder()
+                                .setLittleCaesars()
                                 .setSizeSmall()
                                 .addBacon()
                                 .addChicken()
@@ -84,14 +91,16 @@ public class Question1{
 
         littleCaesarSmall.eat();
 
-        Pizza dominoPizzaSmall = new Pizza.Builder().setDominos()
+        Pizza dominoPizzaSmall = new Pizza.Builder()
+                                .setDominos()
                                 .setSizeSmall()
                                 .addBacon()
                                 .build();
         
         dominoPizzaSmall.eat();
         
-        Pizza dominoPizzaLarge = new Pizza.Builder().setDominos()
+        Pizza dominoPizzaLarge = new Pizza.Builder()
+                                .setDominos()
                                 .setSizeLarge()
                                 .addExtraCheese()
                                 .addMushrooms()

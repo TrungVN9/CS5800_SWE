@@ -8,30 +8,6 @@ public class Pizza {
     private List<String> toppings;
     private String size;
 
-    public void setTopping(List<String> toppings) {
-        this.toppings = toppings;
-    }
-
-    public List<String> getTopping() {
-        return toppings;
-    }
-
-    public void setSize(String size) {
-        this.size = size;
-    }
-
-    public String getSize() {
-        return size;
-    }
-
-    public void setChainName(String chainName) {
-        this.chainName = chainName;
-    }
-
-    public String getChainName() {
-        return chainName;
-    }
-
     private Pizza(Builder builder){
         this.chainName = builder.chainName;
         this.size = builder.size;
@@ -46,9 +22,6 @@ public class Pizza {
         private String chainName;
         private String size;
         private List<String> toppings = new ArrayList<>();
-
-        public Builder(){
-        }
         
         public Builder setPizzaHut() {
             this.chainName = "Pizza Hut";
