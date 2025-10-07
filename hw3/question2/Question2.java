@@ -21,12 +21,10 @@ public class Question2 {
 
         MacronutrientFactory veganOption = VeganFactory.getInstance();
         Customer john = new Customer("John", veganOption);
-        
         john.selectDietPlan();
 
         MacronutrientFactory paleoOption = PaleoFactory.getInstance();
         Customer victor = new Customer("Victor", paleoOption);
-        
         victor.selectDietPlan();
         
     }
