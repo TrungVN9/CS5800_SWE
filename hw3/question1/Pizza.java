@@ -49,6 +49,9 @@ public class Pizza {
 
         public Builder(String chainName, String size){
             this.chainName = chainName;
+            if (!size.equals("Small") && !size.equals("Medium") && !size.equals("Large")) {
+                throw new IllegalArgumentException("Invalid size. Must be Small, Medium, or Large.");
+            }
             this.size = size;
         }
         
