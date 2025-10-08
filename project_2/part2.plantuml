@@ -1,9 +1,6 @@
 @startuml
 title Expense Tracker - Class Diagram
 
-'=========================
-' CORE ACTORS & ENTITIES
-'=========================
 class Customer {
   - customerId
   - name
@@ -106,9 +103,6 @@ class Dashboard {
   + displayData()
 }
 
-'=========================
-' CONTROLLERS / SERVICES (for sequence + expansion)
-'=========================
 class AuthController {
   + signUp()
   + signIn()
@@ -155,8 +149,6 @@ class ReminderController {
 }
 
 '=========================
-' ASSOCIATIONS
-'=========================
 Customer "1" -- "1" Account
 Account "1" -- "*" Expense
 Account "1" -- "*" Category
@@ -173,8 +165,7 @@ Report "1" --> Expense
 Notification "1" --> Customer
 Reminder "1" --> Expense : converts to after paid
 
-'=========================
-' CONTROLLER RELATIONSHIPS
+
 '=========================
 Customer --> AuthController
 AuthController --> Account
