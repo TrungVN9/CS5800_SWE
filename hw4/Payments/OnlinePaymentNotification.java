@@ -3,9 +3,9 @@ package hw4.Payments;
 import hw4.Notifications.Channel;
 
 public class OnlinePaymentNotification extends Payment {
-    private PaymentMethod paymentMethod;
+    private final OnlinePaymentMethod paymentMethod;
 
-    public OnlinePaymentNotification(Channel channel, PaymentMethod paymentMethod) {
+    public OnlinePaymentNotification(Channel channel, OnlinePaymentMethod paymentMethod) {
         super(channel);
         this.paymentMethod = paymentMethod;
     }

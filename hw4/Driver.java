@@ -8,46 +8,42 @@ public class Driver {
         System.out.println("======== PART 1 ========");
         System.out.println("=== Online Payment with Email Notification ===");
 
-        Channel emailChannel = new EmailChannel();
+        Channel email = new EmailChannel();
 
-        PaymentMethod creditCardMethod = new CreditCardPaymentMethod();
-        PaymentMethod paypalMethod = new PaypalPaymentMethod();
+        OnlinePaymentMethod creditCardMethod = new CreditCardPaymentMethod();
+        OnlinePaymentMethod paypalMethod = new PaypalPaymentMethod();
 
-        Payment creditCardWithEmail = new OnlinePaymentNotification(emailChannel, creditCardMethod);
-        Payment paypalWithEmail = new OnlinePaymentNotification(emailChannel, paypalMethod);
+        Payment creditCardWithEmail = new OnlinePaymentNotification(email, creditCardMethod);
+        Payment paypalWithEmail = new OnlinePaymentNotification(email, paypalMethod);
         
         creditCardWithEmail.pay(100.0);
         paypalWithEmail.pay(200.0);
 
         System.out.println("\n=== Online Payment with SMS Notification ===");
 
-        Channel smsChannel = new SmsChannel();
+        Channel sms = new SmsChannel();
 
-        PaymentMethod creditCardMethod2 = new CreditCardPaymentMethod();
-        PaymentMethod paypalMethod2 = new PaypalPaymentMethod();
+        OnlinePaymentMethod creditCardMethod2 = new CreditCardPaymentMethod();
+        OnlinePaymentMethod paypalMethod2 = new PaypalPaymentMethod();
         
-        Payment creditCardWithSms = new OnlinePaymentNotification(smsChannel, creditCardMethod2);
-        Payment paypalWithSms = new OnlinePaymentNotification(smsChannel, paypalMethod2);
+        Payment creditCardWithSms = new OnlinePaymentNotification(sms, creditCardMethod2);
+        Payment paypalWithSms = new OnlinePaymentNotification(sms, paypalMethod2);
         
         creditCardWithSms.pay(150.0);
         paypalWithSms.pay(250.0);
 
         System.out.println("\n=== Cash Payment with Email Notification ===");
 
-        Channel emailChannel2 = new EmailChannel();
+        Channel email2 = new EmailChannel();
 
-        PaymentMethod cashMethod = new CashPaymentMethod();
-
-        Payment cashWithEmail = new CashOnDeliveryPayment(emailChannel2, cashMethod);
+        Payment cashWithEmail = new CashOnDeliveryPayment(email2);
 
         cashWithEmail.pay(300.0);
 
         System.out.println("\n=== Cash Payment with SMS Notification ===");
-        Channel smsChannel2 = new SmsChannel();
+        Channel sms2 = new SmsChannel();
 
-        PaymentMethod cashMethod2 = new CashPaymentMethod();
-
-        Payment cashWithSms = new CashOnDeliveryPayment(smsChannel2, cashMethod2);
+        Payment cashWithSms = new CashOnDeliveryPayment(sms2);
         
         cashWithSms.pay(400.0);
 
@@ -56,51 +52,43 @@ public class Driver {
 
         Channel emailChannel3 = new EmailChannel();
 
-        PaymentMethod bitcoinMethod = new BitcoinPaymentMethod();
-
-        Payment bitcoinWithEmail = new OnlinePaymentNotification(emailChannel3, bitcoinMethod);
+        Payment bitcoinWithEmail = new BitcoinPayment(emailChannel3);
 
         bitcoinWithEmail.pay(500.0);
 
         System.out.println("\n=== Bitcoin Payment with SMS Notification ===");
 
-        Channel smsChannel3 = new SmsChannel();
+        Channel sms3 = new SmsChannel();
 
-        PaymentMethod bitcoinMethod2 = new BitcoinPaymentMethod();
-
-        Payment bitcoinWithSms = new OnlinePaymentNotification(smsChannel3, bitcoinMethod2);
+        Payment bitcoinWithSms = new BitcoinPayment(sms3);
 
         bitcoinWithSms.pay(600.0);
         
         System.out.println("======== PART 3 ========");
         System.out.println("\n=== Cash Payment with Push Notification ===");
 
-        Channel pushChannel = new PushChannel();
+        Channel push = new PushChannel();
 
-        PaymentMethod cashMethod3 = new CashPaymentMethod();
-
-        Payment cashWithPush = new CashOnDeliveryPayment(pushChannel, cashMethod3);
+        Payment cashWithPush = new CashOnDeliveryPayment(push);
 
         cashWithPush.pay(700.0);
 
         System.out.println("\n=== Bitcoin Payment with Push Notification ===");
 
-        Channel pushChannel2 = new PushChannel();
+        Channel push2 = new PushChannel();
 
-        PaymentMethod bitcoinMethod3 = new BitcoinPaymentMethod();
-
-        Payment bitcoinWithPush = new OnlinePaymentNotification(pushChannel2, bitcoinMethod3);
+        Payment bitcoinWithPush = new BitcoinPayment(push2);
 
         bitcoinWithPush.pay(800.0);
 
         System.out.println("\n=== Credit Card Payment with Push Notification ===");
 
-        Channel pushChannel3 = new PushChannel();
+        Channel push3 = new PushChannel();
 
-        PaymentMethod creditCardMethod3 = new CreditCardPaymentMethod();
+        OnlinePaymentMethod creditCardMethod3 = new CreditCardPaymentMethod();
 
-        Payment creditCardWithPush = new OnlinePaymentNotification(pushChannel3, creditCardMethod3);
-        
+        Payment creditCardWithPush = new OnlinePaymentNotification(push3, creditCardMethod3);
+
         creditCardWithPush.pay(900.0);
 
     }
