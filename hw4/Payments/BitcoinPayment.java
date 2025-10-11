@@ -1,9 +1,9 @@
-package Payments;
+package hw4.Payments;
 
-import hw4.part1.Notifications;
-import hw4.part1.Notifications.Channel;
-import hw4.part1.Payments.Payment;
-import hw4.part1.Payments.PaymentMethod;
+import hw4.Notifications;
+import hw4.Notifications.Channel;
+import hw4.Payments.Payment;
+import hw4.Payments.PaymentMethod;
 
 public class BitcoinPayment extends Payment {
     private PaymentMethod paymentMethod;

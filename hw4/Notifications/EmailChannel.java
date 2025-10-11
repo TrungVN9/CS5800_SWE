@@ -1,4 +1,4 @@
-package hw4.part1.Notifications;
+package hw4.Notifications;
 // Create Bridge Implementation --- EmailChannel ---
 public class EmailChannel implements Channel {
     @Override
