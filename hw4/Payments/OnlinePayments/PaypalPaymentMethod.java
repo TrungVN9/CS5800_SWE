@@ -1,9 +1,9 @@
-package hw4.Payments;
+package hw4.Payments.OnlinePayments;
 // Create Bridge Implementation --- PaypalPayment ---
 public class PaypalPaymentMethod implements OnlinePaymentMethod {
     @Override
-    public void processPayment(double amount) {
-        System.out.println("Processing PayPal payment of $" + amount);
+    public String onlinePaymentType() {
+        return "Payment via " + this.getClass().getSimpleName();
     }
 
 }

@@ -9,9 +9,8 @@ public class CashOnDeliveryPayment extends Payment {
     }
 
     @Override
-    public void pay(double amount) {
-        String message = "Cash payment of $" + amount + " processed successfully.";
-        channel.sendNotification(message);
+    public String toString() {
+        return "Payment via Cash On Delivery with " + channel.sendNotification();
     }
 
 }

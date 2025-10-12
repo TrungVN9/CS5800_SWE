@@ -9,9 +9,8 @@ public class BitcoinPayment extends Payment {
     }
 
     @Override
-    public void pay(double amount) {
-        String message = "Bitcoin payment of $" + amount + " processed.";
-        channel.sendNotification(message);
+    public String toString() {
+        return "Payment via Bitcoin with " + channel.sendNotification();
     }
 
 }

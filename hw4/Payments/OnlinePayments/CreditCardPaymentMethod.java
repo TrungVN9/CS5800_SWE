@@ -1,9 +1,9 @@
-package hw4.Payments;
+package hw4.Payments.OnlinePayments;
 // Create Bridge Implementation --- CreditCardPayment ---
 public class CreditCardPaymentMethod implements OnlinePaymentMethod {
     @Override
-    public void processPayment(double amount) {
-        System.out.println("Processing credit card payment of $" + amount);
+    public String onlinePaymentType() {
+        return "Payment via " + this.getClass().getSimpleName();
     }
 
 }

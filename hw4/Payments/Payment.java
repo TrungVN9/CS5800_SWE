@@ -8,6 +8,8 @@ public abstract class Payment {
     public Payment(Channel channel) {
         this.channel = channel;
     }
-
-    public abstract void pay(double amount);
+    
+    public String toString() {
+        return "Payment via " + this.getClass().getSimpleName() + " with " + channel.sendNotification();
+    }
 }

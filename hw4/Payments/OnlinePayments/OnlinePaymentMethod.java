@@ -1,5 +1,6 @@
-package hw4.Payments;
+package hw4.Payments.OnlinePayments;
+
 // Create Bridge Interface --- PaymentMethod ---
 public interface OnlinePaymentMethod {
-    void processPayment(double amount);
+    public String onlinePaymentType();
 }

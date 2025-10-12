@@ -1,6 +1,7 @@
 package hw4.Payments;
 
 import hw4.Notifications.Channel;
+import hw4.Payments.OnlinePayments.OnlinePaymentMethod;
 
 public class OnlinePaymentNotification extends Payment {
     private final OnlinePaymentMethod paymentMethod;
@@ -11,8 +12,9 @@ public class OnlinePaymentNotification extends Payment {
     }
 
     @Override
-    public void pay(double amount) {
-        paymentMethod.processPayment(amount);
-        channel.sendNotification("Online payment of $" + amount + " processed successfully via " + paymentMethod.getClass().getSimpleName());
+    public String toString() {
+        return paymentMethod.onlinePaymentType() + " with " + channel.sendNotification();
     }
+
+
 }
