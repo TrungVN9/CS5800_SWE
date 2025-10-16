@@ -1,4 +1,4 @@
-package hw4.Notifications;
+package Notifications;
 // Create Bridge Implementation --- SmsChannel ---
 public class SmsChannel implements Channel {
     @Override

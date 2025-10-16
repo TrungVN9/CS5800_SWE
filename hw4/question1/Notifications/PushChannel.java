@@ -1,4 +1,4 @@
-package hw4.Notifications;
+package Notifications;
 // Create Bridge Implementation --- PushChannel ---
 public class PushChannel implements Channel {
     @Override

@@ -1,10 +1,8 @@
-package hw4;
-
-import hw4.Notifications.*;
-import hw4.Payments.*;
-import hw4.Payments.OnlinePayments.CreditCardPaymentMethod;
-import hw4.Payments.OnlinePayments.OnlinePaymentMethod;
-import hw4.Payments.OnlinePayments.PaypalPaymentMethod;
+import Notifications.*;
+import Payments.*;
+import Payments.OnlinePayments.CreditCardPaymentMethod;
+import Payments.OnlinePayments.OnlinePaymentMethod;
+import Payments.OnlinePayments.PaypalPaymentMethod;
 
 public class Driver {
     public static void main(String[] args) {

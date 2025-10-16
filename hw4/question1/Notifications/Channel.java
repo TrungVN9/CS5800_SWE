@@ -1,4 +1,4 @@
-package hw4.Notifications;
+package Notifications;
 // Create Bridge Interface --- Channel ---
 public interface Channel {
     String sendNotification();

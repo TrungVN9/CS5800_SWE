@@ -1,4 +1,4 @@
-package hw4.Payments.OnlinePayments;
+package Payments.OnlinePayments;
 
 // Create Bridge Interface --- PaymentMethod ---
 public interface OnlinePaymentMethod {

@@ -1,4 +1,4 @@
-package hw4.Payments.OnlinePayments;
+package Payments.OnlinePayments;
 // Create Bridge Implementation --- CreditCardPayment ---
 public class CreditCardPaymentMethod implements OnlinePaymentMethod {
     @Override

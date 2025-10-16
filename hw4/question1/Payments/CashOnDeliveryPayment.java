@@ -1,6 +1,6 @@
-package hw4.Payments;
+package Payments;
 
-import hw4.Notifications.Channel;
+import Notifications.Channel;
 
 public class CashOnDeliveryPayment extends Payment {
 
