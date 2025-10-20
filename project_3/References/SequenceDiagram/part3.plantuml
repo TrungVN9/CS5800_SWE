@@ -1,0 +1,254 @@
+@startuml
+title Sequence Diagram - User Sign In
+
+actor Customer
+participant UserInterface as "Frontend (UI)"
+participant AuthController as "AuthController (Backend)"
+participant CustomerModel as "Customer Model"
+database DB as "Postgres DB"
+
+Customer -> UserInterface : Enter email/password
+UserInterface -> AuthController : POST /api/login (email, password)
+AuthController -> DB : SELECT * FROM Customer WHERE email=email
+DB --> AuthController : return customer record
+AuthController -> CustomerModel : validatePassword()
+CustomerModel --> AuthController : success/failure
+
+AuthController -> UserInterface : return JWT token / error
+UserInterface -> Customer : redirect to dashboard or show error
+
+@enduml
+
+newpage
+
+@startuml
+title Sequence Diagram - Add Expense Flow
+
+actor Customer
+participant UserInterface as "Frontend (UI)"
+participant ExpenseController as "ExpensesController (Backend)"
+participant Account as "Account Model"
+participant Expense as "Expense Model"
+database DB as "Postgres DB"
+
+Customer -> UserInterface : Click "Add Expense"
+UserInterface -> ExpenseController : POST /api/expenses (amount, category, note)
+ExpenseController -> Account : validateAccount(customerId)
+Account --> ExpenseController : Account details verified
+
+ExpenseController -> Expense : createExpense(amount, date, category, note)
+Expense -> DB : INSERT INTO Expense(...)
+DB --> Expense : Success (expenseId)
+
+Expense --> ExpenseController : Expense object created
+ExpenseController -> Account : updateTotals()
+Account --> ExpenseController : Totals updated
+
+ExpenseController -> UserInterface : Return success message + new expense data
+UserInterface -> Customer : Display updated list and totals
+
+@enduml
+
+newpage
+
+@startuml
+title Sequence Diagram - View Dashboard
+
+actor Customer
+participant UserInterface as "Frontend (UI)"
+participant DashboardController as "DashboardController (Backend)"
+participant Account as "Account Model"
+participant Expense as "Expense Model"
+participant Budget as "Budget Model"
+participant Goal as "Goal Model"
+participant Dashboard as "Dashboard Component"
+
+Customer -> UserInterface : Open Dashboard
+UserInterface -> DashboardController : GET /api/dashboard
+DashboardController -> Account : getAccountData(customerId)
+DashboardController -> Expense : getExpenses(accountId)
+DashboardController -> Budget : getBudgets(accountId)
+DashboardController -> Goal : getGoals(accountId)
+DashboardController -> Dashboard : generateCharts(expenses, budgets, goals)
+
+Dashboard -> UserInterface : return dashboardData
+UserInterface -> Customer : Render charts, goals, spending summary
+
+@enduml
+
+newpage
+
+@startuml
+title Sequence Diagram - Generate Financial Report
+
+actor Customer
+participant UserInterface as "Frontend (UI)"
+participant ReportController as "ReportController (Backend)"
+participant Account as "Account Model"
+participant Expense as "Expense Model"
+participant Report as "Report Model"
+database DB as "Postgres DB"
+
+Customer -> UserInterface : Request Report (Date Range)
+UserInterface -> ReportController : GET /api/report?startDate=X&endDate=Y
+ReportController -> Account : getAccountData(customerId)
+ReportController -> Expense : getExpenses(startDate, endDate)
+Expense -> DB : SELECT * FROM Expenses WHERE date BETWEEN startDate AND endDate
+DB --> Expense : Return expenses list
+ReportController -> Report : generateReport(expenses)
+Report -> DB : INSERT INTO Reports(summary, total, dateRange)
+DB --> Report : Return reportId
+
+ReportController -> UserInterface : Return downloadable report link
+UserInterface -> Customer : Display summary & download option
+
+@enduml
+
+newpage
+
+@startuml
+title Sequence Diagram - Manage Categories and Budgets
+
+actor Customer
+participant UserInterface as "Frontend (UI)"
+participant CategoryController as "CategoryController (Backend)"
+participant BudgetController as "BudgetController (Backend)"
+participant Category as "Category Model"
+participant Budget as "Budget Model"
+database DB as "Postgres DB"
+
+Customer -> UserInterface : Open Category & Budget Settings
+UserInterface -> CategoryController : GET /api/categories
+CategoryController -> DB : SELECT * FROM Categories WHERE customerId=id
+DB --> CategoryController : Return category list
+CategoryController -> UserInterface : Return categories
+
+Customer -> UserInterface : Add/Edit Category (name, limit)
+UserInterface -> CategoryController : POST /api/categories (name, limit)
+CategoryController -> Category : addCategory(name, limit)
+Category -> DB : INSERT INTO Categories(...)
+DB --> Category : Success
+
+CategoryController -> UserInterface : Return updated category list
+
+== Budget Creation ==
+Customer -> UserInterface : Set Budget (limit, period, category)
+UserInterface -> BudgetController : POST /api/budgets (limit, period, category)
+BudgetController -> Budget : setBudget(limit, period, category)
+Budget -> DB : INSERT INTO Budgets(...)
+DB --> Budget : Success
+
+BudgetController -> UserInterface : Return confirmation
+UserInterface -> Customer : Show updated category & budget summary
+
+@enduml
+
+newpage
+
+@startuml
+title Sequence Diagram - Set and Track Saving Goals
+
+actor Customer
+participant UserInterface as "Frontend (UI)"
+participant GoalController as "GoalController (Backend)"
+participant Goal as "Goal Model"
+participant Expense as "Expense Model"
+database DB as "Postgres DB"
+
+Customer -> UserInterface : Open Goals Tab
+UserInterface -> GoalController : GET /api/goals
+GoalController -> DB : SELECT * FROM Goals WHERE customerId=id
+DB --> GoalController : Return goal list
+GoalController -> UserInterface : Return goals
+
+Customer -> UserInterface : Add new goal (title, targetAmount, deadline)
+UserInterface -> GoalController : POST /api/goals (title, targetAmount, deadline)
+GoalController -> Goal : createGoal()
+Goal -> DB : INSERT INTO Goals(...)
+DB --> Goal : Success
+
+== Track Progress ==
+GoalController -> Expense : getTotalExpenses()
+Expense -> DB : SELECT SUM(amount) FROM Expenses WHERE customerId=id
+DB --> Expense : Return totalSpent
+GoalController -> Goal : updateGoalProgress(totalSpent)
+Goal -> DB : UPDATE Goals SET progress=progressValue
+DB --> Goal : Success
+
+GoalController -> UserInterface : Return updated goal status
+UserInterface -> Customer : Show goal progress bar
+
+@enduml
+newpage
+@startuml
+title Sequence Diagram - System Notifications & Alerts
+
+actor Customer
+participant NotificationService as "NotificationController (Backend)"
+participant Budget as "Budget Model"
+participant Goal as "Goal Model"
+participant Expense as "Expense Model"
+participant Notification as "Notification Model"
+database DB as "Postgres DB"
+participant UserInterface as "Frontend (UI)"
+
+== Budget Threshold Alert ==
+Expense -> Budget : checkThresholds()
+Budget -> DB : SELECT * FROM Budgets WHERE spentAmount > limit
+DB --> Budget : Return exceeded budgets
+Budget -> NotificationService : sendAlert("Budget exceeded")
+
+== Goal Progress Alert ==
+Goal -> DB : SELECT * FROM Goals WHERE progress < expected
+DB --> Goal : Return lagging goals
+Goal -> NotificationService : sendAlert("Goal behind schedule")
+
+NotificationService -> Notification : createNotification(type, message)
+Notification -> DB : INSERT INTO Notifications(...)
+DB --> Notification : Success
+NotificationService -> UserInterface : Push notification
+
+UserInterface -> Customer : Display in-app alert ("Budget exceeded")
+
+@enduml
+newpage
+@startuml
+title Sequence Diagram - Bill Reminders
+
+actor Customer
+participant UserInterface as "Frontend (UI)"
+participant ReminderController as "ReminderController (Backend)"
+participant Reminder as "Reminder Model"
+database DB as "Postgres DB"
+participant NotificationService as "NotificationController"
+
+Customer -> UserInterface : Open Reminder Tab
+UserInterface -> ReminderController : GET /api/reminders
+ReminderController -> DB : SELECT * FROM Reminders WHERE customerId=id
+DB --> ReminderController : Return reminders
+ReminderController -> UserInterface : Return reminders
+
+Customer -> UserInterface : Create new reminder (billName, amount, dueDate, note)
+UserInterface -> ReminderController : POST /api/reminders (billName, amount, dueDate, note)
+ReminderController -> Reminder : createReminder()
+Reminder -> DB : INSERT INTO Reminders(...)
+DB --> Reminder : Success
+
+== Scheduled Notification ==
+ReminderController -> NotificationService : scheduleNotification(dueDate)
+NotificationService -> DB : INSERT INTO NotificationQueue(dueDate, reminderId)
+DB --> NotificationService : Scheduled successfully
+
+== Reminder Trigger ==
+Reminder -> DB : SELECT * FROM Reminders WHERE dueDate = today
+DB --> Reminder : Return due reminders
+NotificationService -> UserInterface : Push reminder alert ("Bill due today")
+
+Customer -> UserInterface : Mark reminder as paid
+UserInterface -> ReminderController : PUT /api/reminders/{id}/markPaid
+ReminderController -> Reminder : markAsPaid()
+Reminder -> DB : UPDATE Reminders SET status='PAID'
+DB --> Reminder : Success
+ReminderController -> UserInterface : Return updated list
+
+@enduml

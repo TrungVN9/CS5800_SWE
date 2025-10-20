@@ -1,0 +1,35 @@
+1. Analysis Phase
+
+Review your Class UML diagrams
+Identify all classes and their methods
+Note the expected behavior and constraints for each method
+Map out the relationships between classes
+
+2.Test Strategy Design
+
+For each method, you need to test:
+Valid inputs (normal cases)
+Invalid inputs (error cases)
+Edge cases (boundary conditions)
+Null/empty values
+Type validation
+Design test naming convention (e.g., methodName_scenario_expectedResult)
+
+3. Exception Handling Framework
+
+Create custom exception classes for different error scenarios
+Examples:
+InvalidInputException
+ValidationException
+BusinessRuleException
+Define when and how exceptions should be thrown
+Plan exception messages that will help with debugging
+
+4. Test Implementation
+
+Write test cases using a testing framework (e.g., JUnit for Java)
+Each test should focus on one specific scenario
+Include assertions to verify expected results
+Test both positive and negative scenarios
+Verify that exceptions are thrown when expected
+Use descriptive test names that explain the scenario being tested
