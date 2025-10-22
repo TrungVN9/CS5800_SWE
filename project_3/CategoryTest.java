@@ -6,10 +6,6 @@ import static org.junit.jupiter.api.Assertions.*;
 
 import java.util.List;
 
-/**
- * Unit tests for the Category class.
- * Pattern: BUILD → OPERATE → CHECK
- */
 public class CategoryTest {
 
     private Account account;

@@ -1,8 +1,13 @@
-import org.junit.jupiter.api.*;
-import org.junit.jupiter.params.*;
-import org.junit.jupiter.params.provider.*;
+import Exceptions.Validation.ValidationException;
+import Exceptions.NotFound.NotFoundException;
+import Exceptions.BusinessLogic.BusinessLogicException;
 
-import java.util.*;
+import org.junit.jupiter.api.*;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ValueSource;
+
+import java.util.List;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 public class AccountTest {
@@ -14,49 +19,60 @@ public class AccountTest {
         account = new Account();
     }
 
-    // --- Helper Methods ---
-    private Expense createExpense(String name, double amount) {
+    // --- Helper Builders ---
+    private Expense buildExpense(String name, double amount) {
         return new Expense(name, amount);
     }
 
-    private Budget createBudget(String name, double limit) {
+    private Budget buildBudget(String name, double limit) {
         return new Budget(name, limit);
     }
 
-    private Goal createGoal(String name, double target) {
+    private Goal buildGoal(String name, double target) {
         return new Goal(name, target);
     }
 
-    // --- Expense Tests ---
+    // -------------------------------------------------------
+    //  EXPENSE TESTS
+    // -------------------------------------------------------
+
     @Test
+    @DisplayName("Should return all added expenses safely and unmodifiable")
     void getExpenses_ShouldReturnAllExpenses() {
-        Expense e1 = createExpense("Groceries", 150.0);
-        Expense e2 = createExpense("Utilities", 75.0);
+        // BUILD
+        Expense e1 = buildExpense("Groceries", 150.0);
+        Expense e2 = buildExpense("Utilities", 75.0);
         account.addExpense(e1);
         account.addExpense(e2);
 
+        // OPERATE
         List<Expense> result = account.getExpenses();
 
+        // CHECK
         assertAll(
-            () -> assertEquals(2, result.size()),
+            () -> assertEquals(2, result.size(), "All expenses should be retrieved"),
             () -> assertTrue(result.containsAll(List.of(e1, e2))),
             () -> assertThrows(UnsupportedOperationException.class,
                 () -> result.add(new Expense("Hack", 10.0)),
-                "Expense list should be unmodifiable per UML encapsulation")
+                "Expense list should be unmodifiable to preserve encapsulation")
         );
     }
 
     @Test
+    @DisplayName("Should filter expenses correctly within given date range")
     void getExpenses_WithDateRange_ShouldFilterCorrectly() {
+        // BUILD
         Expense jan = new Expense("Groceries", 150.0, "2024-01-10");
         Expense feb = new Expense("Utilities", 75.0, "2024-02-15");
         account.addExpense(jan);
         account.addExpense(feb);
 
+        // OPERATE
         List<Expense> filtered = account.getExpenses("2024-01-01", "2024-01-31");
 
+        // CHECK
         assertAll(
-            () -> assertEquals(1, filtered.size()),
+            () -> assertEquals(1, filtered.size(), "Only one expense should be in range"),
             () -> assertTrue(filtered.contains(jan)),
             () -> assertFalse(filtered.contains(feb))
         );
@@ -64,26 +80,53 @@ public class AccountTest {
 
     @ParameterizedTest
     @ValueSource(doubles = {0.0, -25.0, -100.5})
-    void addExpense_InvalidAmount_ShouldThrow(double invalidAmount) {
-        Expense invalid = new Expense("Invalid", invalidAmount);
-        assertThrows(IllegalArgumentException.class, () -> account.addExpense(invalid));
+    @DisplayName("Should throw ValidationException when adding expense with invalid amount")
+    void addExpense_InvalidAmount_ShouldThrowValidationException(double invalidAmount) {
+        // BUILD
+        Expense invalid = buildExpense("InvalidExpense", invalidAmount);
+
+        // OPERATE & CHECK
+        ValidationException ex = assertThrows(ValidationException.class,
+                () -> account.addExpense(invalid),
+                "Expected ValidationException for invalid amount");
+        assertTrue(ex.getMessage().contains("amount"), "Exception message should indicate amount error");
     }
 
     @Test
-    void testAddExpense_NullExpense_ShouldThrowException() {
-        assertThrows(NullPointerException.class, () -> account.addExpense(null));
+    @DisplayName("Should throw ValidationException when adding null expense")
+    void addExpense_Null_ShouldThrowValidationException() {
+        // OPERATE & CHECK
+        assertThrows(ValidationException.class,
+                () -> account.addExpense(null),
+                "Adding null expense should raise validation error");
     }
 
-    // --- Budget Tests ---
     @Test
+    @DisplayName("Should throw NotFoundException when retrieving expense that does not exist")
+    void getExpense_Nonexistent_ShouldThrowNotFoundException() {
+        // OPERATE & CHECK
+        assertThrows(NotFoundException.class,
+                () -> account.getExpenseById("EXP-999"),
+                "Expected NotFoundException for nonexistent expense ID");
+    }
+
+    // -------------------------------------------------------
+    //  BUDGET TESTS
+    // -------------------------------------------------------
+
+    @Test
+    @DisplayName("Should return all budgets correctly")
     void getBudgets_ShouldReturnAllBudgets() {
-        Budget b1 = createBudget("Groceries", 500.0);
-        Budget b2 = createBudget("Utilities", 200.0);
+        // BUILD
+        Budget b1 = buildBudget("Groceries", 500.0);
+        Budget b2 = buildBudget("Utilities", 200.0);
         account.addBudget(b1);
         account.addBudget(b2);
 
+        // OPERATE
         List<Budget> result = account.getBudgets();
 
+        // CHECK
         assertAll(
             () -> assertEquals(2, result.size()),
             () -> assertTrue(result.containsAll(List.of(b1, b2)))
@@ -92,21 +135,46 @@ public class AccountTest {
 
     @ParameterizedTest
     @ValueSource(doubles = {0.0, -10.0})
-    void addBudget_InvalidLimit_ShouldThrow(double invalidLimit) {
-        Budget invalid = new Budget("InvalidBudget", invalidLimit);
-        assertThrows(IllegalArgumentException.class, () -> account.addBudget(invalid));
+    @DisplayName("Should throw ValidationException when adding budget with invalid limit")
+    void addBudget_InvalidLimit_ShouldThrowValidationException(double invalidLimit) {
+        // BUILD
+        Budget invalid = buildBudget("InvalidBudget", invalidLimit);
+
+        // OPERATE & CHECK
+        assertThrows(ValidationException.class,
+                () -> account.addBudget(invalid),
+                "Invalid budget limit should trigger ValidationException");
     }
 
-    // --- Goal Tests ---
     @Test
+    @DisplayName("Should throw BusinessLogicException when exceeding total budget cap")
+    void addBudget_ExceedTotalBudgetCap_ShouldThrowBusinessLogicException() {
+        // BUILD
+        account.addBudget(buildBudget("Main", 10_000.0));
+
+        // OPERATE & CHECK
+        assertThrows(BusinessLogicException.class,
+                () -> account.addBudget(buildBudget("Extra", 15_000.0)),
+                "Adding a new budget exceeding account cap should trigger logic exception");
+    }
+
+    // -------------------------------------------------------
+    //  GOAL TESTS
+    // -------------------------------------------------------
+
+    @Test
+    @DisplayName("Should return all goals correctly")
     void getGoals_ShouldReturnAllGoals() {
-        Goal g1 = createGoal("Vacation", 2000.0);
-        Goal g2 = createGoal("Emergency", 5000.0);
+        // BUILD
+        Goal g1 = buildGoal("Vacation", 2000.0);
+        Goal g2 = buildGoal("Emergency", 5000.0);
         account.addGoal(g1);
         account.addGoal(g2);
 
+        // OPERATE
         List<Goal> result = account.getGoals();
 
+        // CHECK
         assertAll(
             () -> assertEquals(2, result.size()),
             () -> assertTrue(result.containsAll(List.of(g1, g2)))
@@ -114,44 +182,74 @@ public class AccountTest {
     }
 
     @Test
-    void addGoal_NullGoal_ShouldThrowException() {
-        assertThrows(NullPointerException.class, () -> account.addGoal(null));
+    @DisplayName("Should throw ValidationException when adding null goal")
+    void addGoal_Null_ShouldThrowValidationException() {
+        // OPERATE & CHECK
+        assertThrows(ValidationException.class,
+                () -> account.addGoal(null),
+                "Adding null goal should trigger validation error");
     }
 
-    // --- Totals and Edge Cases ---
+    // -------------------------------------------------------
+    //  TOTAL CALCULATIONS & EDGE CASES
+    // -------------------------------------------------------
+
     @Test
+    @DisplayName("Should calculate total expenses correctly")
     void calculateTotals_ShouldReturnCorrectSum() {
-        account.addExpense(createExpense("Groceries", 150.0));
-        account.addExpense(createExpense("Utilities", 75.0));
+        // BUILD
+        account.addExpense(buildExpense("Groceries", 150.0));
+        account.addExpense(buildExpense("Utilities", 75.0));
 
+        // OPERATE
         double total = account.calculateTotals();
-        assertEquals(225.0, total, 0.01);
+
+        // CHECK
+        assertEquals(225.0, total, 0.001);
     }
 
     @Test
+    @DisplayName("Should return zero when account has no expenses")
     void calculateTotals_EmptyAccount_ShouldReturnZero() {
-        assertEquals(0.0, account.calculateTotals());
-    }
-
-    @Test
-    void calculateTotals_WithNegativeExpense_ShouldIgnoreInvalid() {
-        Expense invalid = createExpense("Refund", -50.0);
-        account.addExpense(createExpense("Groceries", 150.0));
-        account.addExpense(invalid);
-
+        // OPERATE
         double total = account.calculateTotals();
-        assertEquals(150.0, total, "Negative expenses should be excluded from totals");
+
+        // CHECK
+        assertEquals(0.0, total);
     }
 
-    // --- Integrity Tests ---
     @Test
-    void expenses_AreStoredIndependentlyFromInputList() {
-        Expense exp = createExpense("Coffee", 5.0);
-        account.addExpense(exp);
-        List<Expense> result = account.getExpenses();
+    @DisplayName("Should skip negative expenses in total calculation")
+    void calculateTotals_WithNegativeExpense_ShouldIgnoreInvalid() {
+        // BUILD
+        account.addExpense(buildExpense("Groceries", 150.0));
+        Expense invalid = buildExpense("Refund", -50.0);
 
+        // OPERATE
+        account.addExpense(invalid);
+        double total = account.calculateTotals();
+
+        // CHECK
+        assertEquals(150.0, total, "Negative expenses should be excluded");
+    }
+
+    // -------------------------------------------------------
+    //  INTEGRITY TESTS
+    // -------------------------------------------------------
+
+    @Test
+    @DisplayName("Should ensure Account stores copies of expenses, not references")
+    void expenses_AreStoredIndependentlyFromInputList() {
+        // BUILD
+        Expense exp = buildExpense("Coffee", 5.0);
+        account.addExpense(exp);
+
+        // OPERATE
+        List<Expense> result = account.getExpenses();
         exp.setAmount(999.0);
+
+        // CHECK
         assertNotEquals(999.0, result.get(0).getAmount(),
-            "Account should store a copy, not a reference to mutable object");
+            "Modifying original expense should not affect stored data");
     }
 }

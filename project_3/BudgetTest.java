@@ -1,6 +1,9 @@
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+
+import Exceptions.BusinessLogic.BudgetExceededException;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 
@@ -29,17 +32,15 @@ public class BudgetTest {
     }
 
     @Test
-    @DisplayName("Should return negative remaining amount when over budget")
-    void calculateRemaining_OverBudget_ShouldReturnNegativeAmount() {
-        // BUILD
+    @DisplayName("Should throw BudgetExceededException when over budget")
+    void calculateRemaining_OverBudget_ShouldThrowBudgetExceededException() {
         double totalSpent = 1200.0;
-
-        // OPERATE
-        double remaining = budget.calculateRemaining(totalSpent);
-
-        // CHECK
-        assertTrue(remaining < 0, "Remaining amount should be negative when over budget");
-        assertEquals(-200.0, remaining, 0.001, "Remaining amount should equal 1000 - 1200 = -200");
+        BudgetExceededException ex = assertThrows(
+                BudgetExceededException.class,
+                () -> budget.calculateRemaining(totalSpent),
+                "Expected BudgetExceededException when spending exceeds limit"
+        );
+        assertTrue(ex.getMessage().contains("Budget exceeded"));
     }
 
     @Test

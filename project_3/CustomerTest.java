@@ -5,6 +5,8 @@ import org.junit.jupiter.api.Test;
 import Exceptions.Resource.DuplicateResourceException;
 import Exceptions.Validation.ValidationException;
 import Exceptions.Authentication.AuthenticationException;
+import Exceptions.Authentication.UnauthorizedAccessException;
+import Exceptions.Authentication.InvalidCredentialsException;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -86,18 +88,29 @@ public class CustomerTest {
         boolean result = customer.signIn(email, password);
 
         // Assert
-        assertTrue(result);
+        assertTrue(result, "User should authenticate successfully with valid credentials");
     }
 
     @Test
     @DisplayName("Should throw AuthenticationException when invalid credentials are used")
     void signIn_WithInvalidCredentials_ShouldThrowAuthenticationException() {
         // OPERATE & CHECK
-        assertThrows(AuthenticationException.class, () -> 
+        assertThrows(InvalidCredentialsException.class, () ->
             customer.signIn("wrong@example.com", "WrongPass123!")
         );
     }
+    // ---------------- UNAUTHORIZED ACCESS TESTS ----------------
+    @Test
+    @DisplayName("Should throw UnauthorizedAccessException when accessing restricted area without login")
+    void accessRestrictedFeature_WithoutLogin_ShouldThrowUnauthorizedAccessException() {
+        // BUILD
+        String restrictedAction = "Access Premium Dashboard";
 
+        // OPERATE & CHECK
+        assertThrows(UnauthorizedAccessException.class, () ->
+            customer.performRestrictedAction(restrictedAction)
+        );
+    }
     // ---------------- PROFILE UPDATE TESTS ----------------
 
     @Test

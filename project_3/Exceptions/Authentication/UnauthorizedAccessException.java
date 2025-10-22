@@ -1,7 +1,9 @@
 package Exceptions.Authentication;
 
-public class UnauthorizedAccessException extends AuthenticationException {
+import Exceptions.Base.ExpenseTrackerException;
+
+public class UnauthorizedAccessException extends ExpenseTrackerException {
     public UnauthorizedAccessException(String message) {
-        super(message);
+        super(message, "UNAUTHORIZED_ERROR");
     }
 }

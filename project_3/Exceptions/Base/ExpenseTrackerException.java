@@ -8,9 +8,9 @@ public class ExpenseTrackerException extends RuntimeException {
         this.errorCode = "GENERIC_ERROR";
     }
 
-    public ExpenseTrackerException(String message, String errorCode) {
+    public ExpenseTrackerException(String message, String cause) {
         super(message);
-        this.errorCode = errorCode;
+        this.errorCode = cause;
     }
 
     public String getErrorCode() {
