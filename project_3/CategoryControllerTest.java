@@ -25,7 +25,8 @@ class CategoryControllerTest {
     }
 
     @Test
-    void testCreateCategory_ShouldReturnSuccessResponse() {
+    @Display("Should return success response")
+    void testCreateCategory() {
         // BUILD
         Category request = new Category("C001", "A001", "Food", "Expense", new BigDecimal("500"));
         when(categoryService.createCategory("A001", "Food", "Expense", new BigDecimal("500"))).thenReturn(request);
@@ -41,7 +42,8 @@ class CategoryControllerTest {
     }
 
     @Test
-    void testUpdateCategory_ShouldReturnUpdatedResponse() {
+    @Display("Should return updated response")
+    void testUpdateCategory() {
         // BUILD
         Category request = new Category("C001", "A001", "Bills", "Expense", new BigDecimal("200"));
 
@@ -54,7 +56,8 @@ class CategoryControllerTest {
     }
 
     @Test
-    void testDeleteCategory_ShouldReturnSuccessMessage() {
+    @Display("Should return success message")
+    void testDeleteCategory() {
         // OPERATE
         ResponseEntity<?> response = categoryController.deleteCategory("C001");
 
@@ -64,7 +67,8 @@ class CategoryControllerTest {
     }
 
     @Test
-    void testListCategories_ShouldReturnAllCategoriesForAccount() {
+    @Display("Should return success all categories for account")
+    void testListCategories() {
         // BUILD
         String accountId = "A001";
         List<Category> mockCategories = Arrays.asList(

@@ -23,7 +23,8 @@ public class GoalControllerTest {
     }
 
     @Test
-    void testCreateGoal_valid_shouldReturnCreatedResponse() {
+    @Display("_valid_shouldReturnCreatedResponse")
+    void testCreateGoal() {
         // BUILD
         Goal goal = new Goal("G001", "New Car", BigDecimal.valueOf(20000), LocalDate.now().plusYears(1));
         GoalRequest request = new GoalRequest(1, "New Car", BigDecimal.valueOf(20000), LocalDate.now().plusYears(1));
@@ -39,7 +40,8 @@ public class GoalControllerTest {
     }
 
     @Test
-    void testCreateGoal_missingTitle_shouldReturnBadRequest() {
+    @Display("_missingTitle_shouldReturnBadRequest")
+    void testCreateGoal() {
         // BUILD
         GoalRequest request = new GoalRequest(1, "", BigDecimal.valueOf(1000), LocalDate.now());
 
@@ -52,7 +54,8 @@ public class GoalControllerTest {
     }
 
     @Test
-    void testUpdateGoal_valid_shouldReturnOk() {
+    @Display("_valid_shouldReturnOk")
+    void testUpdateGoal() {
         // BUILD
         UpdateGoalRequest request = new UpdateGoalRequest("Updated", BigDecimal.valueOf(3000), LocalDate.now().plusDays(60));
 
@@ -65,7 +68,8 @@ public class GoalControllerTest {
     }
 
     @Test
-    void testAddContribution_valid_shouldReturnOk() {
+    @Display("_valid_shouldReturnOk")
+    void testAddContribution() {
         // BUILD
         ContributionRequest request = new ContributionRequest(BigDecimal.valueOf(500));
 
@@ -78,7 +82,8 @@ public class GoalControllerTest {
     }
 
     @Test
-    void testGetGoalProgress_valid_shouldReturnProgress() {
+    @Display("_valid_shouldReturnProgress")
+    void testGetGoalProgress() {
         // BUILD
         when(goalService.getGoalProgress("G003")).thenReturn(BigDecimal.valueOf(75));
 
@@ -91,7 +96,8 @@ public class GoalControllerTest {
     }
 
     @Test
-    void testListGoals_valid_shouldReturnGoalsList() {
+    @Display("_valid_shouldReturnGoalsList")
+    void testListGoals() {
         // BUILD
         List<Goal> goals = List.of(new Goal("G001", "Trip", BigDecimal.valueOf(1000), LocalDate.now()));
         when(goalService.getGoalsByAccount(1)).thenReturn(goals);

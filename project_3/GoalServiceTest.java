@@ -120,7 +120,8 @@ public class GoalServiceTest {
     }
 
     @Test
-    void testGetGoalProgress_shouldReturnPercentage() {
+    @Display("_shouldReturnPercentage")
+    void testGetGoalProgress() {
         // BUILD
         Goal goal = new Goal("G010", "Vacation", BigDecimal.valueOf(1000), LocalDate.now());
         goal.setCurrentAmount(BigDecimal.valueOf(250));
@@ -134,7 +135,8 @@ public class GoalServiceTest {
     }
 
     @Test
-    void testCheckGoalCompletion_shouldReturnTrue() {
+    @Display("_shouldReturnTrue")
+    void testCheckGoalCompletion() {
         // BUILD
         Goal goal = new Goal("G020", "Laptop", BigDecimal.valueOf(1500), LocalDate.now());
         goal.setCurrentAmount(BigDecimal.valueOf(1500));

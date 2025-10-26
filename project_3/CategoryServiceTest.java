@@ -28,7 +28,8 @@ class CategoryServiceTest {
     }
 
     @Test
-    void testCreateCategory_ShouldReturnNewCategory_WhenValidInput() {
+    @Display("Should return new category when valid input")
+    void testCreateCategory() {
         // BUILD
         String accountId = "A001";
         String name = "Food";
@@ -49,7 +50,8 @@ class CategoryServiceTest {
     }
 
     @Test
-    void testCreateCategory_ShouldThrowException_WhenAccountNotFound() {
+    @Display("ShouldThrowException_WhenAccountNotFoud")
+    void testCreateCategorynd() {
         // BUILD
         when(accountRepo.existsById("A999")).thenReturn(false);
 
@@ -61,7 +63,8 @@ class CategoryServiceTest {
     }
 
     @Test
-    void testUpdateCategory_ShouldUpdateExistingCategory() {
+    @Display("ShouldUpdateExistingCategory")
+    void testUpdateCategory() {
         // BUILD
         Category existing = new Category("C001", "A001", "Food", "Expense", new BigDecimal("300"));
         when(categoryRepo.findById("C001")).thenReturn(Optional.of(existing));
@@ -76,7 +79,8 @@ class CategoryServiceTest {
     }
 
     @Test
-    void testUpdateCategory_ShouldThrowException_WhenCategoryNotFound() {
+    @Display("ShouldThrowException_WhenCategoryNotFound")
+    void testUpdateCategory() {
         // BUILD
         when(categoryRepo.findById("C999")).thenReturn(Optional.empty());
 
@@ -88,7 +92,8 @@ class CategoryServiceTest {
     }
 
     @Test
-    void testDeleteCategory_ShouldCallRepositoryDelete() {
+    @Display("ShouldCallRepositoryDelete")
+    void testDeleteCategory() {
         // BUILD
         when(categoryRepo.existsById("C001")).thenReturn(true);
 
@@ -100,7 +105,8 @@ class CategoryServiceTest {
     }
 
     @Test
-    void testDeleteCategory_ShouldThrowException_WhenCategoryNotFound() {
+    @Display("ShouldThrowException_WhenCategoryNotFound")
+    void testDeleteCategory() {
         // BUILD
         when(categoryRepo.existsById("C999")).thenReturn(false);
 
@@ -112,7 +118,8 @@ class CategoryServiceTest {
     }
 
     @Test
-    void testGetCategoriesByAccount_ShouldReturnListOfCategories() {
+    @Display("ShouldReturnListOfCategories")
+    void testGetCategoriesByAccount() {
         // BUILD
         String accountId = "A001";
         List<Category> categories = Arrays.asList(
