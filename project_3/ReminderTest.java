@@ -1,102 +1,218 @@
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-
-import Exceptions.Validation.ValidationException;
-
+import org.mockito.Mockito;
+import java.util.*;
+import static org.mockito.Mockito.*;
 import static org.junit.jupiter.api.Assertions.*;
 
-import java.time.LocalDate;
-
-public class ReminderTest {
-
-    private Reminder reminder;
-    private Account account;
-
-    @BeforeEach
-    void setUp() {
-        // BUILD
-        account = new Account();
-        reminder = new Reminder("Electricity Bill", 120.0, LocalDate.now().plusDays(5));
-    }
-
+class ReminderTest {
     @Test
-    @DisplayName("Should create reminder successfully with valid data")
-    void createReminder_WithValidData_ShouldCreateSuccessfully() {
+    @DisplayName("Should create reminder with all required fields")
+    void testCreateReminder() {
         // BUILD
-        String description = "Internet Bill";
-        double amount = 80.0;
-        LocalDate dueDate = LocalDate.now().plusDays(10);
+        String customerId = "cust123";
+        String billName = "Electricity Bill";
+        Money amount = new Money(150);
+        LocalDate dueDate = LocalDate.now().plusDays(7);
+        String note = "Monthly utility payment";
 
         // OPERATE
-        Reminder newReminder = account.createReminder(description, amount, dueDate);
+        Reminder reminder = new Reminder(customerId, billName, amount, dueDate, note);
 
         // CHECK
-        assertNotNull(newReminder, "Reminder should be created successfully");
-        assertEquals(description, newReminder.getDescription());
-        assertEquals(amount, newReminder.getAmount());
-        assertEquals(dueDate, newReminder.getDueDate());
-        assertFalse(newReminder.isPaid(), "Newly created reminder should not be marked as paid");
+        assertNotNull(reminder.getReminderId());
+        assertEquals(customerId, reminder.getCustomerId());
+        assertEquals(billName, reminder.getBillName());
+        assertEquals(amount, reminder.getAmount());
+        assertEquals(dueDate, reminder.getDueDate());
+        assertEquals(note, reminder.getNote());
+        assertEquals(ReminderStatus.PENDING, reminder.getStatus());
+        assertNotNull(reminder.getCreatedAt());
+        assertNotNull(reminder.getUpdatedAt());
     }
 
     @Test
-    @DisplayName("Should throw ValidationException when due date is in the past")
-    void createReminder_WithPastDueDate_ShouldThrowValidationException() {
+    @DisplayName("Should create reminder without note")
+    void testCreateReminderWithoutNote() {
         // BUILD
-        String description = "Phone Bill";
-        double amount = 50.0;
-        LocalDate pastDate = LocalDate.now().minusDays(3);
-
-        // OPERATE & CHECK
-        assertThrows(ValidationException.class, () -> {
-            account.createReminder(description, amount, pastDate);
-        }, "Should throw ValidationException when due date is before today");
-    }
-
-    @Test
-    @DisplayName("Should trigger reminder notification when due date is approaching")
-    void sendReminder_DueDateApproaching_ShouldTriggerNotification() {
-        // BUILD
-        Reminder reminder = new Reminder("Water Bill", 40.0, LocalDate.now().plusDays(2));
-
-        // OPERATE
-        String notification = reminder.sendReminder();
-
-        // CHECK
-        assertNotNull(notification);
-        assertTrue(notification.contains("approaching") || notification.contains("due soon"),
-            "Notification should mention that due date is approaching");
-    }
-
-    @Test
-    @DisplayName("Should mark reminder as paid and create expense in account")
-    void markAsPaid_ValidBill_ShouldUpdateStatusAndCreateExpense() {
-        // BUILD
-        Reminder reminder = account.createReminder("Credit Card Payment", 300.0, LocalDate.now().plusDays(1));
-
-        // OPERATE
-        reminder.markAsPaid(account);
-
-        // CHECK
-        assertTrue(reminder.isPaid(), "Reminder should be marked as paid after successful payment");
-        assertEquals(1, account.getExpenses().size(), "Account should record one expense after marking reminder as paid");
-        Expense recordedExpense = account.getExpenses().get(0);
-        assertEquals("Credit Card Payment", recordedExpense.getDescription());
-        assertEquals(300.0, recordedExpense.getAmount());
-    }
-
-    // Optional edge case
-    @Test
-    @DisplayName("Should handle zero or negative amount reminder validation")
-    void createReminder_WithInvalidAmount_ShouldThrowValidationException() {
-        // BUILD
-        String description = "Invalid Reminder";
-        double invalidAmount = -100.0;
+        String customerId = "cust123";
+        String billName = "Water Bill";
+        Money amount = new Money(50);
         LocalDate dueDate = LocalDate.now().plusDays(5);
 
+        // OPERATE
+        Reminder reminder = new Reminder(customerId, billName, amount, dueDate, null);
+
+        // CHECK
+        assertNull(reminder.getNote());
+    }
+
+    @Test
+    @DisplayName("Should throw exception when customer ID is null")
+    void testNullCustomerId() {
+        // BUILD
+        String nullCustomerId = null;
+
         // OPERATE & CHECK
-        assertThrows(ValidationException.class, () -> {
-            account.createReminder(description, invalidAmount, dueDate);
-        }, "Should not allow creating reminder with negative or zero amount");
+        IllegalArgumentException exception = assertThrows(
+                IllegalArgumentException.class,
+                () -> new Reminder(nullCustomerId, "Bill", new Money(100), LocalDate.now().plusDays(7), "note"));
+        assertEquals("Customer ID cannot be empty", exception.getMessage());
+    }
+
+    @Test
+    @DisplayName("Should throw exception when customer ID is empty")
+    void testEmptyCustomerId() {
+        // BUILD
+        String emptyCustomerId = "   ";
+
+        // OPERATE & CHECK
+        IllegalArgumentException exception = assertThrows(
+                IllegalArgumentException.class,
+                () -> new Reminder(emptyCustomerId, "Bill", new Money(100), LocalDate.now().plusDays(7), "note"));
+        assertEquals("Customer ID cannot be empty", exception.getMessage());
+    }
+
+    @Test
+    @DisplayName("Should throw exception when bill name is null")
+    void testNullBillName() {
+        // BUILD
+        String nullBillName = null;
+
+        // OPERATE & CHECK
+        IllegalArgumentException exception = assertThrows(
+                IllegalArgumentException.class,
+                () -> new Reminder("cust123", nullBillName, new Money(100), LocalDate.now().plusDays(7), "note"));
+        assertEquals("Bill name cannot be empty", exception.getMessage());
+    }
+
+    @Test
+    @DisplayName("Should throw exception when bill name is empty")
+    void testEmptyBillName() {
+        // BUILD
+        String emptyBillName = "   ";
+
+        // OPERATE & CHECK
+        IllegalArgumentException exception = assertThrows(
+                IllegalArgumentException.class,
+                () -> new Reminder("cust123", emptyBillName, new Money(100), LocalDate.now().plusDays(7), "note"));
+        assertEquals("Bill name cannot be empty", exception.getMessage());
+    }
+
+    @Test
+    @DisplayName("Should throw exception when amount is null")
+    void testNullAmount() {
+        // BUILD
+        Money nullAmount = null;
+
+        // OPERATE & CHECK
+        IllegalArgumentException exception = assertThrows(
+                IllegalArgumentException.class,
+                () -> new Reminder("cust123", "Bill", nullAmount, LocalDate.now().plusDays(7), "note"));
+        assertEquals("Amount cannot be null", exception.getMessage());
+    }
+
+    @Test
+    @DisplayName("Should throw exception when amount is zero")
+    void testZeroAmount() {
+        // BUILD
+        Money zeroAmount = new Money(0);
+
+        // OPERATE & CHECK
+        IllegalArgumentException exception = assertThrows(
+                IllegalArgumentException.class,
+                () -> new Reminder("cust123", "Bill", zeroAmount, LocalDate.now().plusDays(7), "note"));
+        assertEquals("Amount must be greater than zero", exception.getMessage());
+    }
+
+    @Test
+    @DisplayName("Should throw exception when amount is negative")
+    void testNegativeAmount() {
+        // BUILD & OPERATE & CHECK
+        assertThrows(
+                IllegalArgumentException.class,
+                () -> new Reminder("cust123", "Bill", new Money(-100), LocalDate.now().plusDays(7), "note"));
+    }
+
+    @Test
+    @DisplayName("Should throw exception when due date is null")
+    void testNullDueDate() {
+        // BUILD
+        LocalDate nullDueDate = null;
+
+        // OPERATE & CHECK
+        IllegalArgumentException exception = assertThrows(
+                IllegalArgumentException.class,
+                () -> new Reminder("cust123", "Bill", new Money(100), nullDueDate, "note"));
+        assertEquals("Due date cannot be null", exception.getMessage());
+    }
+
+    @Test
+    @DisplayName("Should allow past due date during creation")
+    void testPastDueDate() {
+        // BUILD
+        LocalDate pastDate = LocalDate.now().minusDays(1);
+
+        // OPERATE
+        Reminder reminder = new Reminder("cust123", "Bill", new Money(100), pastDate, "note");
+
+        // CHECK
+        assertEquals(pastDate, reminder.getDueDate());
+    }
+
+    @Test
+    @DisplayName("Should mark reminder as paid")
+    void testMarkAsPaid() {
+        // BUILD
+        Reminder reminder = new Reminder("cust123", "Bill", new Money(100), LocalDate.now().plusDays(7), "note");
+
+        // OPERATE
+        reminder.markAsPaid();
+
+        // CHECK
+        assertEquals(ReminderStatus.PAID, reminder.getStatus());
+    }
+
+    @Test
+    @DisplayName("Should throw exception when marking already paid reminder")
+    void testMarkAlreadyPaidReminder() {
+        // BUILD
+        Reminder reminder = new Reminder("cust123", "Bill", new Money(100), LocalDate.now().plusDays(7), "note");
+        reminder.markAsPaid();
+
+        // OPERATE & CHECK
+        IllegalStateException exception = assertThrows(
+                IllegalStateException.class,
+                () -> reminder.markAsPaid());
+        assertEquals("Reminder is already marked as paid", exception.getMessage());
+    }
+
+    @Test
+    @DisplayName("Should throw exception when marking cancelled reminder as paid")
+    void testMarkCancelledReminderAsPaid() {
+        // BUILD
+        Reminder reminder = new Reminder("cust123", "Bill", new Money(100), LocalDate.now().plusDays(7), "note");
+        reminder.cancel();
+
+        // OPERATE & CHECK
+        IllegalStateException exception = assertThrows(
+                IllegalStateException.class,
+                () -> reminder.markAsPaid());
+        assertEquals("Cannot mark cancelled reminder as paid", exception.getMessage());
+    }
+
+    @Test
+    @DisplayName("Should snooze reminder to new date")
+    void testSnoozeReminder() {
+        // BUILD
+        Reminder reminder = new Reminder("cust123", "Bill", new Money(100), LocalDate.now().plusDays(7), "note");
+        LocalDate newDueDate = LocalDate.now().plusDays(14);
+
+        // OPERATE
+        reminder.snooze(newDueDate);
+
+        // CHECK
+        assertEquals(newDueDate, reminder.getDueDate());
+        assertEquals(ReminderStatus.PENDING, reminder.getStatus());
     }
 }

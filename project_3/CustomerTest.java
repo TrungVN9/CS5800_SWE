@@ -1,160 +1,164 @@
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-
-import Exceptions.Resource.DuplicateResourceException;
-import Exceptions.Validation.ValidationException;
-import Exceptions.Authentication.AuthenticationException;
-import Exceptions.Authentication.UnauthorizedAccessException;
-import Exceptions.Authentication.InvalidCredentialsException;
-
+import org.mockito.Mockito;
+import java.util.*;
+import static org.mockito.Mockito.*;
 import static org.junit.jupiter.api.Assertions.*;
 
-public class CustomerTest {
-
-    private Customer customer;
-
-    @BeforeEach
-    void setUp() {
-        customer = new Customer();
-    }
-
-    // ---------------- SIGN UP TESTS ----------------
+class CustomerTest {
 
     @Test
-    @DisplayName("Should create account successfully when valid signup data is provided")
-    void signUp_WithValidData_ShouldCreateAccount() {
+    @DisplayName("Should create customer with all required fields")
+    void testCreateCustomer() {
         // BUILD
         String name = "John Doe";
-        String email = "john.doe@example.com";
-        String password = "StrongPass123!";
-        String occupation = "Software Engineer";
-        double salary = 75000.0;
-
+        Email email = new Email("john@example.com");
+        String passwordHash = "hashed_password";
+        String occupation = "Engineer";
+        Money salary = new Money(75000);
+        
         // OPERATE
-        boolean result = customer.signUp(name, email, password, occupation, salary);
-
+        Customer customer = new Customer(name, email, passwordHash, occupation, salary);
+        
         // CHECK
-        assertAll("Valid signup assertions",
-            () -> assertTrue(result),
-            () -> assertEquals(name, customer.getName()),
-            () -> assertEquals(email, customer.getEmail()),
-            () -> assertNotEquals(password, customer.getPasswordHash(), "Password should be securely hashed"),
-            () -> assertEquals(occupation, customer.getOccupation()),
-            () -> assertEquals(salary, customer.getSalary())
-        );
+        assertNotNull(customer.getCustomerId());
+        assertEquals("John Doe", customer.getName());
+        assertEquals(email, customer.getEmail());
+        assertEquals("hashed_password", customer.getPasswordHash());
+        assertEquals("Engineer", customer.getOccupation());
+        assertEquals(salary, customer.getSalary());
+        assertNotNull(customer.getCreatedAt());
     }
 
     @Test
-    @DisplayName("Should throw DuplicateResourceException when email already exists")
-    void signUp_WithExistingEmail_ShouldThrowDuplicateResourceException() {
+    @DisplayName("Should throw exception when name is null")
+    void testNullNameThrowsException() {
         // BUILD
-        String email = "existing@example.com";
-
+        String nullName = null;
+        Email email = new Email("john@example.com");
+        String passwordHash = "hashed_password";
+        
         // OPERATE & CHECK
-        assertThrows(DuplicateResourceException.class, () -> 
-            customer.signUp("John Doe", email, "Password123!", "Engineer", 80000.0)
+        assertThrows(NullPointerException.class, () -> 
+            new Customer(nullName, email, passwordHash, "Engineer", new Money(75000))
         );
     }
 
     @Test
-    @DisplayName("Should throw ValidationException when email format is invalid")
-    void signUp_WithInvalidEmail_ShouldThrowValidationException() {
-        // OPERATE & CHECK
-        assertThrows(ValidationException.class, () -> 
-            customer.signUp("John Doe", "invalid-email", "Password123!", "Engineer", 80000.0)
-        );
-    }
-
-    @Test
-    @DisplayName("Should throw ValidationException when password is weak")
-    void signUp_WithWeakPassword_ShouldThrowValidationException() {
-        // OPERATE & CHECK
-        assertThrows(ValidationException.class, () -> 
-            customer.signUp("John Doe", "john@example.com", "weak", "Engineer", 80000.0)
-        );
-    }
-
-    // ---------------- SIGN IN TESTS ----------------
-
-    @Test
-    @DisplayName("Should authenticate successfully with valid credentials")
-    void signIn_WithValidCredentials_ShouldAuthenticate() {
+    @DisplayName("Should throw exception when email is null")
+    void testNullEmailThrowsException() {
         // BUILD
-        String email = "john@example.com";
-        String password = "ValidPass123!";
+        Email nullEmail = null;
+        
+        // OPERATE & CHECK
+        assertThrows(NullPointerException.class, () -> 
+            new Customer("John Doe", nullEmail, "hash", "Engineer", new Money(75000))
+        );
+    }
 
+    @Test
+    @DisplayName("Should update profile with new values")
+    void testUpdateProfile() {
+        // BUILD
+        Customer customer = new Customer(
+            "John Doe",
+            new Email("john@example.com"),
+            "hash",
+            "Engineer",
+            new Money(75000)
+        );
+        
+        String newName = "Jane Doe";
+        Email newEmail = new Email("jane@example.com");
+        String newOccupation = "Manager";
+        Money newSalary = new Money(90000);
+        
         // OPERATE
-        boolean result = customer.signIn(email, password);
-
-        // Assert
-        assertTrue(result, "User should authenticate successfully with valid credentials");
-    }
-
-    @Test
-    @DisplayName("Should throw AuthenticationException when invalid credentials are used")
-    void signIn_WithInvalidCredentials_ShouldThrowAuthenticationException() {
-        // OPERATE & CHECK
-        assertThrows(InvalidCredentialsException.class, () ->
-            customer.signIn("wrong@example.com", "WrongPass123!")
-        );
-    }
-    // ---------------- UNAUTHORIZED ACCESS TESTS ----------------
-    @Test
-    @DisplayName("Should throw UnauthorizedAccessException when accessing restricted area without login")
-    void accessRestrictedFeature_WithoutLogin_ShouldThrowUnauthorizedAccessException() {
-        // BUILD
-        String restrictedAction = "Access Premium Dashboard";
-
-        // OPERATE & CHECK
-        assertThrows(UnauthorizedAccessException.class, () ->
-            customer.performRestrictedAction(restrictedAction)
-        );
-    }
-    // ---------------- PROFILE UPDATE TESTS ----------------
-
-    @Test
-    @DisplayName("Should update customer profile successfully with valid data")
-    void updateProfile_WithValidData_ShouldUpdateSuccessfully() {
-        // BUILD
-        String newName = "John Updated";
-        String newOccupation = "Senior Engineer";
-        double newSalary = 85000.0;
-
-        // OPERATE
-        boolean result = customer.updateProfile(newName, newOccupation, newSalary);
-
+        customer.updateProfile(newName, newEmail, newOccupation, newSalary);
+        
         // CHECK
-        assertAll("Profile update assertions",
-            () -> assertTrue(result),
-            () -> assertEquals(newName, customer.getName()),
-            () -> assertEquals(newOccupation, customer.getOccupation()),
-            () -> assertEquals(newSalary, customer.getSalary())
-        );
+        assertEquals("Jane Doe", customer.getName());
+        assertEquals(newEmail, customer.getEmail());
+        assertEquals("Manager", customer.getOccupation());
+        assertEquals(newSalary, customer.getSalary());
     }
 
     @Test
-    @DisplayName("Should throw ValidationException when salary is negative")
-    void updateProfile_WithInvalidSalary_ShouldThrowValidationException() {
-        // OPERATE & CHECK
-        assertThrows(ValidationException.class, () -> 
-            customer.updateProfile("John Doe", "Engineer", -5000.0)
+    @DisplayName("Should keep old values when updating with nulls")
+    void testUpdateProfileWithNulls() {
+        // BUILD
+        Customer customer = new Customer(
+            "John Doe",
+            new Email("john@example.com"),
+            "hash",
+            "Engineer",
+            new Money(75000)
         );
-    }
-
-    // ---------------- DASHBOARD VIEW TESTS ----------------
-
-    @Test
-    @DisplayName("Should return a populated Dashboard object when viewing dashboard")
-    void viewDashboard_ShouldReturnDashboardData() {
+        String originalName = customer.getName();
+        Email originalEmail = customer.getEmail();
+        
         // OPERATE
-        Dashboard dashboard = customer.viewDashboard();
-
+        customer.updateProfile(null, null, "Manager", null);
+        
         // CHECK
-        assertAll("Dashboard data assertions",
-            () -> assertNotNull(dashboard),
-            () -> assertNotNull(dashboard.getTotals()),
-            () -> assertNotNull(dashboard.getCharts())
+        assertEquals(originalName, customer.getName());
+        assertEquals(originalEmail, customer.getEmail());
+        assertEquals("Manager", customer.getOccupation());
+    }
+
+    @Test
+    @DisplayName("Should change password successfully")
+    void testChangePassword() {
+        // BUILD
+        Customer customer = new Customer(
+            "John Doe",
+            new Email("john@example.com"),
+            "old_hash",
+            "Engineer",
+            new Money(75000)
+        );
+        String newPasswordHash = "new_hash";
+        
+        // OPERATE
+        customer.changePassword(newPasswordHash);
+        
+        // CHECK
+        assertEquals("new_hash", customer.getPasswordHash());
+    }
+
+    @Test
+    @DisplayName("Should throw exception when changing to null password")
+    void testChangePasswordWithNull() {
+        // BUILD
+        Customer customer = new Customer(
+            "John Doe",
+            new Email("john@example.com"),
+            "old_hash",
+            "Engineer",
+            new Money(75000)
+        );
+        
+        // OPERATE & CHECK
+        assertThrows(IllegalArgumentException.class, () -> 
+            customer.changePassword(null)
+        );
+    }
+
+    @Test
+    @DisplayName("Should throw exception when changing to empty password")
+    void testChangePasswordWithEmpty() {
+        // BUILD
+        Customer customer = new Customer(
+            "John Doe",
+            new Email("john@example.com"),
+            "old_hash",
+            "Engineer",
+            new Money(75000)
+        );
+        
+        // OPERATE & CHECK
+        assertThrows(IllegalArgumentException.class, () -> 
+            customer.changePassword("   ")
         );
     }
 }
