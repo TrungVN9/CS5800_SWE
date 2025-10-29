@@ -27,6 +27,10 @@ public class Driver{
 
             document.saveToFile("edited_output.txt");
             System.out.println("\nDocument saved to edited_output.txt");
+
+            document.loadFromFile("edited_output.txt");
+            System.out.println("\nDocument loaded from edited_output.txt:");
+            document.displayDocument();
         } catch (Exception e) {
             e.printStackTrace();
         }
