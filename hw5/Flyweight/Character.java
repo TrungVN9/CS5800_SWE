@@ -1,3 +1,4 @@
+package Flyweight;
 public class Character {
     private char character;
     private CharacterProperties properties;

@@ -1,3 +1,4 @@
+package Flyweight;
 public class CharacterProperties{
     private final String font;
     private final String color;
