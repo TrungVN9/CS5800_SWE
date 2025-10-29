@@ -19,18 +19,14 @@ public class Driver{
             System.out.println("Original Document:");
             document.displayDocument();
 
-            // EDIT example
             System.out.println("\nEditing 2nd character (index 1)...");
             document.editCharacter(1, 'E', "Verdana", "Black", 16);
 
             System.out.println("\nDocument After Edit:");
             document.displayDocument();
 
-            // Save to file
             document.saveToFile("edited_output.txt");
             System.out.println("\nDocument saved to edited_output.txt");
-
-            System.out.println("\nUnique CharacterProperties objects created: " + factory.getPropertiesSize());
         } catch (Exception e) {
             e.printStackTrace();
         }
