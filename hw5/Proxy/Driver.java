@@ -18,10 +18,10 @@ public class Driver {
         SongServiceDB realServiceDB = new SongServiceDB(songsDB);
         CachedSongService cachedSongs = new CachedSongService(realServiceDB);
 
-        System.out.println("\n=== First search by ID ===");
+        System.out.println("\n=== First search by ID 1 ===");
         System.out.println(cachedSongs.searchByID(1));
 
-        System.out.println("\n=== Second search by ID (cached) ===");
+        System.out.println("\n=== Second search by ID 1 (cached) ===");
         System.out.println(cachedSongs.searchByID(1));
 
         System.out.println("\n=== Search by Title ===");
@@ -33,11 +33,11 @@ public class Driver {
         System.out.println("\n=== Cached Album Search ===");
         printSongs(cachedSongs.searchByAlbum("Divide"));
     }
-    
+
 // Helper function for printing song lists
     private static void printSongs(List<Song> songs) {
         if (songs.isEmpty()) {
-            System.out.println("No songs found.");
+            System.out.println("No songs found!!!");
         } else {
             for (Song song : songs) {
                 System.out.println("Song ID: " + song.getID() + ", Title: " + song.getTitle() +
